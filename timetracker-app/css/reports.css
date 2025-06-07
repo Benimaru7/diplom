@@ -1,0 +1,1008 @@
+/* ===== ОТЧЕТЫ И АНАЛИТИКА ===== */
+
+/* Фильтры отчетов */
+.report-filters {
+    margin-bottom: var(--spacing-8);
+}
+
+.filters-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.filters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.filters-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.filters-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-6);
+    padding: var(--spacing-6);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.period-selector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.date-range {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.date-range span {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.report-types {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+/* ===== ОСНОВНЫЕ МЕТРИКИ ===== */
+.key-metrics {
+    margin-bottom: var(--spacing-8);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.metric-card {
+    background: var(--white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary-color), #1e40af);
+    transform: scaleY(0);
+    transition: var(--transition-fast);
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.metric-card:hover::before {
+    transform: scaleY(1);
+}
+
+.metric-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #1e40af);
+    color: var(--white);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    flex-shrink: 0;
+}
+
+.metric-card:nth-child(2) .metric-icon {
+    background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.metric-card:nth-child(3) .metric-icon {
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
+}
+
+.metric-card:nth-child(4) .metric-icon {
+    background: linear-gradient(135deg, var(--info-color), #0891b2);
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-content h4 {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-2);
+}
+
+.metric-change {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.metric-change.positive {
+    color: var(--success-color);
+}
+
+.metric-change.negative {
+    color: var(--error-color);
+}
+
+.metric-change.neutral {
+    color: var(--text-muted);
+}
+
+.metric-chart {
+    width: 60px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* ===== МАКЕТ ОТЧЕТОВ ===== */
+.reports-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-8);
+    margin-bottom: var(--spacing-8);
+}
+
+/* ===== ГРАФИКИ И ДИАГРАММЫ ===== */
+.chart-section {
+    margin-bottom: var(--spacing-6);
+}
+
+.chart-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.chart-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.chart-controls {
+    display: flex;
+    gap: var(--spacing-1);
+    background: var(--white);
+    padding: var(--spacing-1);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+}
+
+.chart-btn {
+    padding: var(--spacing-1) var(--spacing-3);
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.chart-btn.active,
+.chart-btn:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.chart-legend {
+    display: flex;
+    gap: var(--spacing-4);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.chart-filter {
+    min-width: 150px;
+}
+
+.chart-container {
+    padding: var(--spacing-6);
+    position: relative;
+    min-height: 300px;
+}
+
+/* ===== БОКОВАЯ ПАНЕЛЬ ===== */
+.reports-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+/* Топ показатели */
+.stats-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.stats-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
+    color: var(--white);
+}
+
+.stats-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin: 0;
+}
+
+.stats-header i {
+    font-size: var(--font-size-xl);
+}
+
+.stats-list {
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+    transition: var(--transition-fast);
+}
+
+.stat-item:hover {
+    background: var(--gray-50);
+}
+
+.stat-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-base);
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.stat-icon.best {
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
+}
+
+.stat-icon.good {
+    background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.stat-icon.average {
+    background: linear-gradient(135deg, var(--info-color), #0891b2);
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-title {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-1);
+}
+
+.stat-value {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-1);
+}
+
+.stat-desc {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ===== КАЛЕНДАРЬ АКТИВНОСТИ ===== */
+.calendar-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.calendar-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.calendar-grid {
+    padding: var(--spacing-6);
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--spacing-1);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    background: var(--gray-100);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.calendar-day:hover {
+    transform: scale(1.1);
+}
+
+.calendar-day[data-intensity="0"] {
+    background: var(--gray-100);
+}
+
+.calendar-day[data-intensity="1"] {
+    background: rgba(37, 99, 235, 0.2);
+}
+
+.calendar-day[data-intensity="2"] {
+    background: rgba(37, 99, 235, 0.4);
+}
+
+.calendar-day[data-intensity="3"] {
+    background: rgba(37, 99, 235, 0.6);
+}
+
+.calendar-day[data-intensity="4"] {
+    background: var(--primary-color);
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: 0 var(--spacing-6) var(--spacing-6);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.legend-title {
+    margin-right: var(--spacing-2);
+}
+
+.intensity-scale {
+    display: flex;
+    gap: var(--spacing-1);
+}
+
+.intensity-level {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--gray-100);
+}
+
+.intensity-level[data-level="1"] {
+    background: rgba(37, 99, 235, 0.2);
+}
+
+.intensity-level[data-level="2"] {
+    background: rgba(37, 99, 235, 0.4);
+}
+
+.intensity-level[data-level="3"] {
+    background: rgba(37, 99, 235, 0.6);
+}
+
+.intensity-level[data-level="4"] {
+    background: var(--primary-color);
+}
+
+.legend-label {
+    margin-left: var(--spacing-2);
+}
+
+/* ===== ЦЕЛИ И ДОСТИЖЕНИЯ ===== */
+.goals-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.goals-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.goals-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.goals-list {
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.goal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+    transition: var(--transition-fast);
+}
+
+.goal-item:hover {
+    background: var(--gray-50);
+}
+
+.goal-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.goal-icon.completed {
+    background: var(--success-color);
+}
+
+.goal-icon.in-progress {
+    background: var(--warning-color);
+}
+
+.goal-icon.pending {
+    background: var(--gray-400);
+}
+
+.goal-content {
+    flex: 1;
+}
+
+.goal-title {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-2);
+}
+
+.goal-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.goal-progress .progress {
+    flex: 1;
+    height: 6px;
+}
+
+.progress-text {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    min-width: 60px;
+}
+
+/* ===== ДЕТАЛЬНЫЕ ОТЧЕТЫ ===== */
+.detailed-reports {
+    margin-bottom: var(--spacing-8);
+}
+
+.report-tabs {
+    display: flex;
+    gap: var(--spacing-1);
+    background: var(--gray-100);
+    padding: var(--spacing-1);
+    border-radius: var(--radius-lg);
+}
+
+.tab-btn {
+    padding: var(--spacing-2) var(--spacing-4);
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background: var(--white);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.report-tab-content {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    margin-top: var(--spacing-6);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    display: none;
+}
+
+.report-tab-content.active {
+    display: block;
+}
+
+/* ===== ВКЛАДКА СВОДКА ===== */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-8);
+}
+
+.summary-section h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-4);
+    padding-bottom: var(--spacing-2);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3);
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.summary-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.summary-value {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.plan-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.comparison-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.comparison-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.comparison-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.bar-background {
+    flex: 1;
+    height: 8px;
+    background: var(--gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--primary-color), #1e40af);
+    border-radius: var(--radius-md);
+    transition: width var(--transition-normal);
+}
+
+.comparison-value {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ===== ВКЛАДКА ВРЕМЯ ===== */
+.time-analysis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+}
+
+.time-breakdown h4,
+.time-trends h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-4);
+}
+
+.breakdown-chart {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trends-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.trend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+    background: var(--gray-50);
+}
+
+.trend-item.positive {
+    border-left: 4px solid var(--success-color);
+}
+
+.trend-item.negative {
+    border-left: 4px solid var(--error-color);
+}
+
+.trend-item.neutral {
+    border-left: 4px solid var(--gray-400);
+}
+
+.trend-item i {
+    color: inherit;
+}
+
+.trend-item.positive {
+    color: var(--success-color);
+}
+
+.trend-item.negative {
+    color: var(--error-color);
+}
+
+.trend-item.neutral {
+    color: var(--gray-600);
+}
+
+.trend-item span {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+}
+
+/* ===== ВКЛАДКА РЕЗУЛЬТАТИВНОСТЬ ===== */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.kpi-card {
+    text-align: center;
+    padding: var(--spacing-4);
+    background: var(--gray-50);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+}
+
+.kpi-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-1);
+}
+
+.kpi-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-2);
+}
+
+.kpi-trend {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.kpi-trend.positive {
+    color: var(--success-color);
+}
+
+.kpi-trend.negative {
+    color: var(--error-color);
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1199px) {
+    .reports-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .filters-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .header-content {
+        flex-direction: column;
+        gap: var(--spacing-4);
+        align-items: stretch;
+    }
+    
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .metric-card {
+        padding: var(--spacing-4);
+    }
+    
+    .metric-icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: var(--font-size-lg);
+    }
+    
+    .filters-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .chart-header {
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+    }
+    
+    .chart-legend {
+        justify-content: center;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .time-analysis {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .report-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 479px) {
+    .filters-card,
+    .chart-card,
+    .stats-card,
+    .calendar-card,
+    .goals-card {
+        border-radius: var(--radius-xl);
+    }
+    
+    .filters-header,
+    .chart-header,
+    .stats-header,
+    .calendar-header,
+    .goals-header {
+        padding: var(--spacing-4);
+    }
+    
+    .filters-content,
+    .chart-container,
+    .stats-list,
+    .calendar-grid,
+    .goals-list {
+        padding: var(--spacing-4);
+    }
+    
+    .metric-card {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-3);
+    }
+    
+    .metric-chart {
+        align-self: center;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-grid {
+        gap: 2px;
+    }
+    
+    .chart-controls {
+        flex-direction: column;
+    }
+    
+    .chart-btn {
+        text-align: center;
+    }
+}
+
+/* ===== ПЕЧАТЬ ===== */
+@media print {
+    .navbar,
+    .header-actions,
+    .filters-card,
+    .chart-controls,
+    .chart-filter,
+    .modal {
+        display: none !important;
+    }
+    
+    .reports-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .chart-card,
+    .stats-card,
+    .calendar-card,
+    .goals-card {
+        box-shadow: none;
+        border: 1px solid #000;
+        break-inside: avoid;
+    }
+    
+    .metric-card {
+        break-inside: avoid;
+    }
+    
+    .page-header h1 {
+        color: #000;
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет сотрудника - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/employee-dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="employee-dashboard.html" class="nav-link active"><i class="fas fa-user"></i> Мой кабинет</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="admin-panel.html"><i class="fas fa-cog"></i> Админ-панель</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Личный кабинет сотрудника</h1>
+                        <p class="page-subtitle">Управление рабочим временем и задачами</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="current-time">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime">10:30</span>
+                        </div>
+                        <div class="current-date">
+                            <i class="fas fa-calendar"></i>
+                            <span id="current-date">Понедельник, 31 мая 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Быстрые действия для учета времени -->
+            <section class="quick-actions">
+                <div class="action-card check-in" id="checkInCard">
+                    <div class="action-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Начать рабочий день</h3>
+                        <p>Отметить приход на работу</p>
+                        <button class="btn btn-primary" onclick="checkIn()">
+                            <i class="fas fa-clock"></i>
+                            Пришел
+                        </button>
+                    </div>
+                    <div class="action-status">
+                        <span class="status-text">Готов к работе</span>
+                    </div>
+                </div>
+
+                <div class="action-card check-out hidden" id="checkOutCard">
+                    <div class="action-icon working">
+                        <i class="fas fa-pause-circle"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Завершить рабочий день</h3>
+                        <p>Отметить уход с работы</p>
+                        <button class="btn btn-secondary" onclick="checkOut()">
+                            <i class="fas fa-stop"></i>
+                            Ушел
+                        </button>
+                    </div>
+                    <div class="action-status working">
+                        <span class="status-text">Работаю: <span id="workDuration">0ч 0м</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Статистика работы -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Сегодня</h3>
+                        <div class="stat-value" id="todayHours">0ч 0м</div>
+                        <div class="stat-label">Отработано</div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Эта неделя</h3>
+                        <div class="stat-value" id="weekHours">24ч 30м</div>
+                        <div class="stat-label">из 40ч</div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" style="width: 61%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Этот месяц</h3>
+                        <div class="stat-value" id="monthHours">142ч 15м</div>
+                        <div class="stat-label">из 160ч</div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" style="width: 89%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Эффективность</h3>
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Средний показатель</div>
+                        <div class="stat-progress">
+                            <div class="progress-bar progress-bar-success" style="width: 92%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Основной контент в две колонки -->
+            <div class="dashboard-grid">
+                <!-- Левая колонка -->
+                <div class="dashboard-main">
+                    <!-- Мои задачи -->
+                    <section class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-tasks"></i> Мои задачи</h2>
+                            <div class="section-actions">
+                                <button class="btn btn-outline btn-sm" onclick="showAddTaskModal()">
+                                    <i class="fas fa-plus"></i>
+                                    Добавить
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="task-list">
+                            <div class="task-item priority-high">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task1">
+                                    <label for="task1"></label>
+                                </div>
+                                <div class="task-content">
+                                    <div class="task-title">Завершить модуль авторизации</div>
+                                    <div class="task-meta">
+                                        <span class="task-time"><i class="fas fa-clock"></i> До 18:00</span>
+                                        <span class="task-priority high">Высокий приоритет</span>
+                                    </div>
+                                </div>
+                                <div class="task-actions">
+                                    <button class="task-btn" onclick="editTask(1)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="task-item priority-medium">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task2">
+                                    <label for="task2"></label>
+                                </div>
+                                <div class="task-content">
+                                    <div class="task-title">Ревью кода коллеги</div>
+                                    <div class="task-meta">
+                                        <span class="task-time"><i class="fas fa-clock"></i> До завтра</span>
+                                        <span class="task-priority medium">Средний приоритет</span>
+                                    </div>
+                                </div>
+                                <div class="task-actions">
+                                    <button class="task-btn" onclick="editTask(2)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="task-item priority-low">
+                                <div class="task-checkbox">
+                                    <input type="checkbox" id="task3" checked>
+                                    <label for="task3"></label>
+                                </div>
+                                <div class="task-content completed">
+                                    <div class="task-title">Обновить документацию</div>
+                                    <div class="task-meta">
+                                        <span class="task-time"><i class="fas fa-check"></i> Выполнено</span>
+                                        <span class="task-priority low">Низкий приоритет</span>
+                                    </div>
+                                </div>
+                                <div class="task-actions">
+                                    <button class="task-btn" onclick="editTask(3)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Недавняя активность -->
+                    <section class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-history"></i> Недавняя активность</h2>
+                            <a href="timesheet.html" class="btn btn-outline btn-sm">
+                                Полная история
+                            </a>
+                        </div>
+                        
+                        <div class="activity-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Приход</th>
+                                        <th>Уход</th>
+                                        <th>Всего</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentRecords">
+                                    <tr>
+                                        <td>30.05.2025</td>
+                                        <td>09:00</td>
+                                        <td>18:00</td>
+                                        <td>8ч 0м</td>
+                                        <td><span class="status status-complete">Завершен</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>29.05.2025</td>
+                                        <td>09:15</td>
+                                        <td>17:45</td>
+                                        <td>7ч 30м</td>
+                                        <td><span class="status status-complete">Завершен</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28.05.2025</td>
+                                        <td>08:45</td>
+                                        <td>18:30</td>
+                                        <td>8ч 45м</td>
+                                        <td><span class="status status-overtime">Переработка</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>27.05.2025</td>
+                                        <td>09:00</td>
+                                        <td>17:30</td>
+                                        <td>7ч 30м</td>
+                                        <td><span class="status status-complete">Завершен</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Правая колонка -->
+                <div class="dashboard-sidebar">
+                    <!-- Расписание -->
+                    <section class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-calendar-alt"></i> Сегодня</h2>
+                        </div>
+                        
+                        <div class="schedule-list">
+                            <div class="schedule-item">
+                                <div class="schedule-time">10:00</div>
+                                <div class="schedule-content">
+                                    <div class="schedule-title">Ежедневный стендап</div>
+                                    <div class="schedule-location">Конференц-зал</div>
+                                </div>
+                            </div>
+
+                            <div class="schedule-item">
+                                <div class="schedule-time">14:00</div>
+                                <div class="schedule-content">
+                                    <div class="schedule-title">Планирование спринта</div>
+                                    <div class="schedule-location">Zoom</div>
+                                </div>
+                            </div>
+
+                            <div class="schedule-item">
+                                <div class="schedule-time">16:00</div>
+                                <div class="schedule-content">
+                                    <div class="schedule-title">1-на-1 с руководителем</div>
+                                    <div class="schedule-location">Кабинет 205</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Уведомления -->
+                    <section class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-bell"></i> Уведомления</h2>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Обновление системы</div>
+                                    <div class="notification-text">Запланировано техническое обслуживание</div>
+                                    <div class="notification-time">2 часа назад</div>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Новый сотрудник</div>
+                                    <div class="notification-text">Мария Сидорова присоединилась к команде</div>
+                                    <div class="notification-time">1 день назад</div>
+                                </div>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Достижение</div>
+                                    <div class="notification-text">Вы выполнили 100% задач в этом месяце!</div>
+                                    <div class="notification-time">3 дня назад</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Быстрый доступ -->
+                    <section class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-rocket"></i> Быстрые действия</h2>
+                        </div>
+                        
+                        <div class="quick-actions-grid">
+                            <button class="quick-action-btn" onclick="showAddTaskModal()">
+                                <i class="fas fa-plus"></i>
+                                <span>Новая задача</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="window.location.href='timesheet.html'">
+                                <i class="fas fa-calendar"></i>
+                                <span>Табель</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="window.location.href='payroll.html'">
+                                <i class="fas fa-calculator"></i>
+                                <span>Зарплата</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="window.location.href='profile.html'">
+                                <i class="fas fa-user"></i>
+                                <span>Профиль</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TimeTracker Pro. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальные окна -->
+    <!-- Добавление задачи -->
+    <div id="addTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить задачу</h3>
+                <span class="modal-close" onclick="closeModal('addTaskModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addTaskForm">
+                    <div class="form-group">
+                        <label class="form-label" for="taskTitle">Название задачи</label>
+                        <input type="text" id="taskTitle" class="form-input" placeholder="Введите название задачи" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="taskPriority">Приоритет</label>
+                            <select id="taskPriority" class="form-select" required>
+                                <option value="low">Низкий</option>
+                                <option value="medium" selected>Средний</option>
+                                <option value="high">Высокий</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="taskDeadline">Срок выполнения</label>
+                            <input type="datetime-local" id="taskDeadline" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="taskDescription">Описание</label>
+                        <textarea id="taskDescription" class="form-textarea" rows="3" placeholder="Дополнительные детали задачи..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addTaskModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveTask()">Создать задачу</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения прихода -->
+    <div id="checkInModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Подтверждение прихода</h3>
+                <span class="modal-close" onclick="closeModal('checkInModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-content">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Отметить приход на работу?</h4>
+                    <p>Текущее время: <span id="modalTime"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('checkInModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="confirmCheckIn()">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/employee-dashboard.js"></script>
+    <script src="js/app.js"></script>
+    <script src="server/models/Users.js"></script>
+</body>
+</html>

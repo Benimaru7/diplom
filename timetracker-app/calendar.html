@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="employee-dashboard.html" class="nav-link"><i class="fas fa-home"></i> Мой кабинет</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="calendar.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> Календарь</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Настройки</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <h1>Календарь событий</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="openEventModal()">
+                        <i class="fas fa-plus"></i> Добавить событие
+                    </button>
+                    <div class="view-switcher">
+                        <button class="btn btn-outline active" data-view="month">Месяц</button>
+                        <button class="btn btn-outline" data-view="week">Неделя</button>
+                        <button class="btn btn-outline" data-view="day">День</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Календарь -->
+            <section class="calendar-section">
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button class="btn btn-outline" id="prevBtn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h2 id="currentMonth">Июнь 2025</h2>
+                        <button class="btn btn-outline" id="nextBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary" id="todayBtn">Сегодня</button>
+                </div>
+
+                <div class="calendar-container">
+                    <!-- Вид месяца -->
+                    <div class="calendar-view month-view" id="monthView">
+                        <div class="calendar-grid">
+                            <div class="calendar-header-row">
+                                <div class="calendar-day-header">Пн</div>
+                                <div class="calendar-day-header">Вт</div>
+                                <div class="calendar-day-header">Ср</div>
+                                <div class="calendar-day-header">Чт</div>
+                                <div class="calendar-day-header">Пт</div>
+                                <div class="calendar-day-header">Сб</div>
+                                <div class="calendar-day-header">Вс</div>
+                            </div>
+                            <div id="calendarDays" class="calendar-days">
+                                <!-- Дни будут генерироваться JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Вид недели -->
+                    <div class="calendar-view week-view hidden" id="weekView">
+                        <div class="week-header">
+                            <div class="time-column"></div>
+                            <div class="week-days" id="weekDays">
+                                <!-- Дни недели будут генерироваться JS -->
+                            </div>
+                        </div>
+                        <div class="week-grid" id="weekGrid">
+                            <!-- Сетка времени будет генерироваться JS -->
+                        </div>
+                    </div>
+
+                    <!-- Вид дня -->
+                    <div class="calendar-view day-view hidden" id="dayView">
+                        <div class="day-header">
+                            <h3 id="dayTitle">Понедельник, 2 июня</h3>
+                        </div>
+                        <div class="day-grid" id="dayGrid">
+                            <!-- Сетка дня будет генерироваться JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Список событий -->
+            <section class="events-sidebar">
+                <div class="sidebar-header">
+                    <h3>События</h3>
+                    <div class="event-filters">
+                        <select id="eventTypeFilter">
+                            <option value="">Все типы</option>
+                            <option value="meeting">Встречи</option>
+                            <option value="deadline">Дедлайны</option>
+                            <option value="holiday">Праздники</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="events-list" id="eventsList">
+                    <!-- События будут загружаться JS -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно создания/редактирования события -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Новое событие</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <form id="eventForm" class="modal-body">
+                <div class="form-group">
+                    <label for="eventTitle">Название события *</label>
+                    <input type="text" id="eventTitle" name="title" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventType">Тип события</label>
+                        <select id="eventType" name="type" required>
+                            <option value="">Выберите тип</option>
+                            <option value="meeting">Встреча</option>
+                            <option value="deadline">Дедлайн</option>
+                            <option value="holiday">Праздник</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventPriority">Приоритет</label>
+                        <select id="eventPriority" name="priority">
+                            <option value="low">Низкий</option>
+                            <option value="medium" selected>Средний</option>
+                            <option value="high">Высокий</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Дата *</label>
+                        <input type="date" id="eventDate" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTime">Время</label>
+                        <input type="time" id="eventTime" name="time">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDuration">Продолжительность (минуты)</label>
+                    <input type="number" id="eventDuration" name="duration" min="15" step="15" value="60">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventLocation">Место проведения</label>
+                    <input type="text" id="eventLocation" name="location" placeholder="Кабинет 205, Zoom и т.д.">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">Описание</label>
+                    <textarea id="eventDescription" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="eventReminder" name="reminder" checked>
+                        <span class="checkmark"></span>
+                        Напомнить за 15 минут
+                    </label>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeEventModal()">Отмена</button>
+                <button type="submit" form="eventForm" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TimeTracker Pro. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/app.js"></script>
+    <script src="server/routes/calendar.js"></script>
+    <script src="server/routes/CalendarEvents.js"></script>
+</body>
+</html>

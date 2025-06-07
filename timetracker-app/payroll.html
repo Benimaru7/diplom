@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчет заработной платы - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/payroll.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link active"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="admin-panel.html"><i class="fas fa-cog"></i> Админ-панель</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Расчет заработной платы</h1>
+                        <p class="page-subtitle">Калькулятор зарплаты и расчетные листки</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="downloadPayslip()">
+                            <i class="fas fa-download"></i>
+                            Скачать расчетный листок
+                        </button>
+                        <button class="btn btn-primary" onclick="calculateSalary()">
+                            <i class="fas fa-calculator"></i>
+                            Пересчитать
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Период расчета -->
+            <section class="calculation-period">
+                <div class="period-card">
+                    <div class="period-header">
+                        <h3>Период расчета</h3>
+                        <div class="period-controls">
+                            <button class="btn btn-outline btn-sm" onclick="changePeriod(-1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="current-period" id="payrollPeriod">Май 2025</span>
+                            <button class="btn btn-outline btn-sm" onclick="changePeriod(1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="period-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Отработано дней</div>
+                            <div class="stat-value" id="workedDays">22</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Отработано часов</div>
+                            <div class="stat-value" id="workedHours">176ч</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Переработка</div>
+                            <div class="stat-value" id="overtimeHours">12ч</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Больничные</div>
+                            <div class="stat-value" id="sickDays">0</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Основной расчет -->
+            <div class="payroll-layout">
+                <!-- Левая колонка - Калькулятор -->
+                <section class="salary-calculator">
+                    <div class="calculator-card">
+                        <div class="card-header">
+                            <h3>Калькулятор зарплаты</h3>
+                            <div class="calculation-date">
+                                Расчет на: <span id="calculationDate"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <!-- Основная ставка -->
+                            <div class="calculation-section">
+                                <h4>Основные начисления</h4>
+                                
+                                <div class="calculation-row">
+                                    <div class="calc-label">
+                                        <i class="fas fa-clock"></i>
+                                        Базовая ставка
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="baseSalary" class="form-input" 
+                                               value="80000" min="0" step="1000">
+                                        <span class="input-suffix">₽/мес</span>
+                                    </div>
+                                    <div class="calc-result" id="baseAmount">80,000₽</div>
+                                </div>
+
+                                <div class="calculation-row">
+                                    <div class="calc-label">
+                                        <i class="fas fa-percentage"></i>
+                                        Процент от отработанного времени
+                                    </div>
+                                    <div class="calc-input">
+                                        <span class="calc-percentage" id="workPercentage">100%</span>
+                                    </div>
+                                    <div class="calc-result" id="adjustedBase">80,000₽</div>
+                                </div>
+
+                                <div class="calculation-row">
+                                    <div class="calc-label">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Переработка
+                                        <small>12ч × 1.5 коэф.</small>
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="overtimeRate" class="form-input" 
+                                               value="1.5" min="1" max="3" step="0.1">
+                                        <span class="input-suffix">коэф</span>
+                                    </div>
+                                    <div class="calc-result" id="overtimeAmount">+9,000₽</div>
+                                </div>
+
+                                <div class="calculation-row">
+                                    <div class="calc-label">
+                                        <i class="fas fa-gift"></i>
+                                        Премии и надбавки
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="bonuses" class="form-input" 
+                                               value="5000" min="0" step="500">
+                                        <span class="input-suffix">₽</span>
+                                    </div>
+                                    <div class="calc-result" id="bonusAmount">+5,000₽</div>
+                                </div>
+                            </div>
+
+                            <!-- Удержания -->
+                            <div class="calculation-section">
+                                <h4>Удержания</h4>
+                                
+                                <div class="calculation-row deduction">
+                                    <div class="calc-label">
+                                        <i class="fas fa-minus-circle"></i>
+                                        НДФЛ (13%)
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="taxRate" class="form-input" 
+                                               value="13" min="0" max="30" step="1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                    <div class="calc-result deduction" id="taxAmount">-12,220₽</div>
+                                </div>
+
+                                <div class="calculation-row deduction">
+                                    <div class="calc-label">
+                                        <i class="fas fa-hand-holding-medical"></i>
+                                        Соц. взносы работника
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="socialRate" class="form-input" 
+                                               value="1" min="0" max="5" step="0.1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                    <div class="calc-result deduction" id="socialAmount">-940₽</div>
+                                </div>
+
+                                <div class="calculation-row deduction">
+                                    <div class="calc-label">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        Штрафы и удержания
+                                    </div>
+                                    <div class="calc-input">
+                                        <input type="number" id="penalties" class="form-input" 
+                                               value="0" min="0" step="100">
+                                        <span class="input-suffix">₽</span>
+                                    </div>
+                                    <div class="calc-result deduction" id="penaltyAmount">0₽</div>
+                                </div>
+                            </div>
+
+                            <!-- Итоговый расчет -->
+                            <div class="calculation-total">
+                                <div class="total-row gross">
+                                    <div class="total-label">Начислено (Gross)</div>
+                                    <div class="total-amount" id="grossAmount">94,000₽</div>
+                                </div>
+                                <div class="total-row deductions">
+                                    <div class="total-label">Всего удержано</div>
+                                    <div class="total-amount" id="totalDeductions">-13,160₽</div>
+                                </div>
+                                <div class="total-row net">
+                                    <div class="total-label">К выплате (Net)</div>
+                                    <div class="total-amount" id="netAmount">80,840₽</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Правая колонка - Детализация -->
+                <section class="salary-breakdown">
+                    <!-- Расчетный листок -->
+                    <div class="payslip-card">
+                        <div class="card-header">
+                            <h3>Расчетный листок</h3>
+                            <button class="btn btn-outline btn-sm" onclick="printPayslip()">
+                                <i class="fas fa-print"></i>
+                                Печать
+                            </button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="payslip-header">
+                                <div class="company-info">
+                                    <h4>ООО "ТехИнновации"</h4>
+                                    <p>ИНН: 7701234567</p>
+                                </div>
+                                <div class="employee-info">
+                                    <h4 id="employeeName">Петров Иван Сергеевич</h4>
+                                    <p>Должность: <span id="employeePosition">Frontend Developer</span></p>
+                                    <p>Табельный номер: <span id="employeeNumber">001</span></p>
+                                </div>
+                            </div>
+
+                            <div class="payslip-period">
+                                <strong>Расчетный период: <span id="payslipPeriod">Май 2025</span></strong>
+                            </div>
+
+                            <div class="payslip-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Вид начисления/удержания</th>
+                                            <th>Количество</th>
+                                            <th>Сумма, ₽</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payslipTableBody">
+                                        <!-- Данные будут заполняться JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="payslip-footer">
+                                <div class="signature-block">
+                                    <p>Бухгалтер: _________________ / Смирнова А.В.</p>
+                                    <p>Дата выдачи: <span id="issueDate"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Статистика по зарплате -->
+                    <div class="salary-stats">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-trending-up"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>Рост к прошлому месяцу</h4>
+                                    <div class="stat-value positive" id="salaryGrowth">+5.2%</div>
+                                    <div class="stat-description">+4,200₽</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>Средняя зарплата в день</h4>
+                                    <div class="stat-value" id="dailyAverage">3,675₽</div>
+                                    <div class="stat-description">За 22 раб. дня</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>Стоимость часа</h4>
+                                    <div class="stat-value" id="hourlyRate">460₽</div>
+                                    <div class="stat-description">Базовая ставка</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>Накопления за год</h4>
+                                    <div class="stat-value" id="yearlyTotal">970,080₽</div>
+                                    <div class="stat-description">12 месяцев</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- История выплат -->
+            <section class="payment-history">
+                <div class="section-header">
+                    <h2>История выплат</h2>
+                    <div class="history-controls">
+                        <select class="form-select" id="historyPeriod" onchange="loadPaymentHistory()">
+                            <option value="6">За 6 месяцев</option>
+                            <option value="12" selected>За год</option>
+                            <option value="24">За 2 года</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="history-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Период</th>
+                                <th>Отработано часов</th>
+                                <th>Начислено</th>
+                                <th>Удержано</th>
+                                <th>К выплате</th>
+                                <th>Дата выплаты</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentHistoryBody">
+                            <!-- Данные будут загружаться через JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Налоговые вычеты -->
+            <section class="tax-deductions">
+                <div class="section-header">
+                    <h2>Налоговые вычеты</h2>
+                    <button class="btn btn-primary" onclick="showDeductionModal()">
+                        <i class="fas fa-plus"></i>
+                        Добавить вычет
+                    </button>
+                </div>
+
+                <div class="deductions-grid">
+                    <div class="deduction-card">
+                        <div class="deduction-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="deduction-content">
+                            <h4>Стандартный вычет на детей</h4>
+                            <div class="deduction-amount">1,400₽ × 2 = 2,800₽</div>
+                            <div class="deduction-description">2 ребенка до 18 лет</div>
+                        </div>
+                        <div class="deduction-status active">
+                            <i class="fas fa-check-circle"></i>
+                            Активен
+                        </div>
+                    </div>
+
+                    <div class="deduction-card">
+                        <div class="deduction-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="deduction-content">
+                            <h4>Социальный вычет на обучение</h4>
+                            <div class="deduction-amount">50,000₽</div>
+                            <div class="deduction-description">Курсы повышения квалификации</div>
+                        </div>
+                        <div class="deduction-status pending">
+                            <i class="fas fa-clock"></i>
+                            Ожидает
+                        </div>
+                    </div>
+
+                    <div class="deduction-card inactive">
+                        <div class="deduction-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="deduction-content">
+                            <h4>Имущественный вычет</h4>
+                            <div class="deduction-amount">2,000,000₽</div>
+                            <div class="deduction-description">Покупка квартиры (использован)</div>
+                        </div>
+                        <div class="deduction-status completed">
+                            <i class="fas fa-check"></i>
+                            Использован
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно вычета -->
+    <div id="deductionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить налоговый вычет</h3>
+                <span class="modal-close" onclick="closeModal('deductionModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="deductionForm">
+                    <div class="form-group">
+                        <label class="form-label" for="deductionType">Тип вычета</label>
+                        <select id="deductionType" class="form-select" required>
+                            <option value="">Выберите тип</option>
+                            <option value="standard">Стандартный</option>
+                            <option value="social">Социальный</option>
+                            <option value="property">Имущественный</option>
+                            <option value="professional">Профессиональный</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="deductionAmount">Сумма вычета</label>
+                        <input type="number" id="deductionAmount" class="form-input" 
+                               min="0" step="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="deductionDescription">Описание</label>
+                        <textarea id="deductionDescription" class="form-textarea" rows="3"
+                                placeholder="Основание для вычета..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="deductionDocuments">Документы</label>
+                        <input type="file" id="deductionDocuments" class="form-input" multiple
+                               accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        <div class="form-help">Прикрепите справки и документы</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('deductionModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveDeduction()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/payroll.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

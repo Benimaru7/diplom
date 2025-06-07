@@ -1,0 +1,447 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "personalInfo": {
+        "firstName": "Иван",
+        "lastName": "Петров",
+        "middleName": "Сергеевич",
+        "email": "ivan.petrov@company.com",
+        "phone": "+7 (999) 123-45-67",
+        "birthDate": "1985-03-15",
+        "address": "г. Бишкек, ул. Токтогула, 123, кв. 45",
+        "emergencyContact": {
+          "name": "Анна Петрова",
+          "phone": "+7 (999) 123-45-68",
+          "relation": "супруга"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP001",
+        "position": "Frontend Developer",
+        "department": "IT отдел",
+        "hireDate": "2020-01-15",
+        "status": "active",
+        "workSchedule": {
+          "type": "standard",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "09:00",
+          "endTime": "18:00",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 80000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 500,
+        "overtimeRate": 750,
+        "bonuses": {
+          "performance": 5000,
+          "project": 0
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": false,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/ivan.png",
+      "role": "employee",
+      "lastLogin": "2025-05-30T14:30:00Z",
+      "createdAt": "2020-01-15T09:00:00Z",
+      "updatedAt": "2025-05-30T14:30:00Z"
+    },
+    {
+      "id": 2,
+      "personalInfo": {
+        "firstName": "Мария",
+        "lastName": "Сидорова",
+        "middleName": "Александровна",
+        "email": "maria.sidorova@company.com",
+        "phone": "+7 (999) 234-56-78",
+        "birthDate": "1990-07-22",
+        "address": "г. Бишкек, ул. Манаса, 87, кв. 12",
+        "emergencyContact": {
+          "name": "Олег Сидоров",
+          "phone": "+7 (999) 234-56-79",
+          "relation": "супруг"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP002",
+        "position": "UX/UI Designer",
+        "department": "Дизайн",
+        "hireDate": "2021-03-10",
+        "status": "active",
+        "workSchedule": {
+          "type": "flexible",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "10:00",
+          "endTime": "19:00",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 75000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 468,
+        "overtimeRate": 702,
+        "bonuses": {
+          "performance": 3000,
+          "project": 8000
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": false,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/maria.png",
+      "role": "employee",
+      "lastLogin": "2025-05-30T11:45:00Z",
+      "createdAt": "2021-03-10T09:00:00Z",
+      "updatedAt": "2025-05-30T11:45:00Z"
+    },
+    {
+      "id": 3,
+      "personalInfo": {
+        "firstName": "Бексултан",
+        "lastName": "Кылычбеков",
+        "middleName": "",
+        "email": "beksultan@gmail.com",
+        "phone": "+996 (555) 123-456",
+        "birthDate": "1992-11-08",
+        "address": "г. Бишкек, мкр. Джал, 15/2, кв. 78",
+        "emergencyContact": {
+          "name": "Айгуль Кылычбекова",
+          "phone": "+996 (555) 123-457",
+          "relation": "мать"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP003",
+        "position": "Backend Developer",
+        "department": "IT отдел",
+        "hireDate": "2022-06-01",
+        "status": "active",
+        "workSchedule": {
+          "type": "remote",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "09:30",
+          "endTime": "18:30",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 150000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 937,
+        "overtimeRate": 1405,
+        "bonuses": {
+          "performance": 10000,
+          "project": 15000
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": true,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/beksultan.png",
+      "role": "employee",
+      "lastLogin": "2025-05-30T16:20:00Z",
+      "createdAt": "2022-06-01T09:00:00Z",
+      "updatedAt": "2025-05-30T16:20:00Z"
+    },
+    {
+      "id": 4,
+      "personalInfo": {
+        "firstName": "Анна",
+        "lastName": "Смирнова",
+        "middleName": "Викторовна",
+        "email": "anna.smirnova@company.com",
+        "phone": "+7 (999) 345-67-89",
+        "birthDate": "1988-12-03",
+        "address": "г. Бишкек, ул. Киевская, 45, кв. 23",
+        "emergencyContact": {
+          "name": "Виктор Смирнов",
+          "phone": "+7 (999) 345-67-90",
+          "relation": "отец"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP004",
+        "position": "HR Manager",
+        "department": "HR отдел",
+        "hireDate": "2019-09-01",
+        "status": "active",
+        "workSchedule": {
+          "type": "standard",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "08:30",
+          "endTime": "17:30",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 65000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 406,
+        "overtimeRate": 609,
+        "bonuses": {
+          "performance": 4000,
+          "project": 0
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": true,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/anna.png",
+      "role": "employee",
+      "lastLogin": "2025-05-30T08:45:00Z",
+      "createdAt": "2019-09-01T09:00:00Z",
+      "updatedAt": "2025-05-30T08:45:00Z"
+    },
+    {
+      "id": 5,
+      "personalInfo": {
+        "firstName": "Дмитрий",
+        "lastName": "Козлов",
+        "middleName": "Андреевич",
+        "email": "dmitry.kozlov@company.com",
+        "phone": "+7 (999) 456-78-90",
+        "birthDate": "1983-05-17",
+        "address": "г. Бишкек, ул. Логвиненко, 67, кв. 89",
+        "emergencyContact": {
+          "name": "Елена Козлова",
+          "phone": "+7 (999) 456-78-91",
+          "relation": "супруга"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP005",
+        "position": "Sales Manager",
+        "department": "Продажи",
+        "hireDate": "2018-11-15",
+        "status": "active",
+        "workSchedule": {
+          "type": "flexible",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "09:00",
+          "endTime": "18:00",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 70000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 437,
+        "overtimeRate": 656,
+        "bonuses": {
+          "performance": 8000,
+          "project": 12000
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": false,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/dmitry.png",
+      "role": "employee",
+      "lastLogin": "2025-05-29T17:30:00Z",
+      "createdAt": "2018-11-15T09:00:00Z",
+      "updatedAt": "2025-05-29T17:30:00Z"
+    },
+    {
+      "id": 6,
+      "personalInfo": {
+        "firstName": "Екатерина",
+        "lastName": "Новикова",
+        "middleName": "Сергеевна",
+        "email": "ekaterina.novikova@company.com",
+        "phone": "+7 (999) 567-89-01",
+        "birthDate": "1995-01-28",
+        "address": "г. Бишкек, ул. Панфилова, 234, кв. 56",
+        "emergencyContact": {
+          "name": "Сергей Новиков",
+          "phone": "+7 (999) 567-89-02",
+          "relation": "отец"
+        }
+      },
+      "workInfo": {
+        "employeeId": "EMP006",
+        "position": "Marketing Specialist",
+        "department": "Маркетинг",
+        "hireDate": "2023-02-20",
+        "status": "active",
+        "workSchedule": {
+          "type": "standard",
+          "hoursPerDay": 8,
+          "daysPerWeek": 5,
+          "startTime": "09:00",
+          "endTime": "18:00",
+          "lunchBreak": 60
+        },
+        "manager": {
+          "id": 100,
+          "name": "Администратор",
+          "email": "admin@company.com"
+        }
+      },
+      "compensation": {
+        "salary": 55000,
+        "currency": "KGS",
+        "paymentType": "monthly",
+        "hourlyRate": 343,
+        "overtimeRate": 515,
+        "bonuses": {
+          "performance": 2000,
+          "project": 5000
+        }
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": false,
+        "canManageProjects": false
+      },
+      "avatar": "assets/images/avatars/ekaterina.png",
+      "role": "employee",
+      "lastLogin": "2025-05-30T13:15:00Z",
+      "createdAt": "2023-02-20T09:00:00Z",
+      "updatedAt": "2025-05-30T13:15:00Z"
+    }
+  ],
+  "admins": [
+    {
+      "id": 100,
+      "personalInfo": {
+        "firstName": "Администратор",
+        "lastName": "Системы",
+        "middleName": "",
+        "email": "admin@company.com",
+        "phone": "+7 (999) 000-00-00",
+        "birthDate": "1980-01-01",
+        "address": "г. Бишкек, административный адрес"
+      },
+      "workInfo": {
+        "employeeId": "ADM001",
+        "position": "System Administrator",
+        "department": "Администрация",
+        "hireDate": "2018-01-01",
+        "status": "active"
+      },
+      "permissions": {
+        "canEditTimesheet": true,
+        "canViewReports": true,
+        "canManageProjects": true,
+        "canManageEmployees": true,
+        "canManageSystem": true,
+        "canViewPayroll": true,
+        "canEditPayroll": true,
+        "accessLevel": "full"
+      },
+      "avatar": "assets/images/avatars/admin.png",
+      "role": "admin",
+      "password": "admin123",
+      "accessCode": "ADMIN2025",
+      "lastLogin": "2025-05-30T18:00:00Z",
+      "createdAt": "2018-01-01T00:00:00Z",
+      "updatedAt": "2025-05-30T18:00:00Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "IT",
+      "name": "IT отдел",
+      "description": "Отдел информационных технологий",
+      "manager": {
+        "id": 100,
+        "name": "Администратор"
+      },
+      "budget": 500000,
+      "employeeCount": 2
+    },
+    {
+      "id": "HR",
+      "name": "HR отдел",
+      "description": "Отдел кадров",
+      "manager": {
+        "id": 100,
+        "name": "Администратор"
+      },
+      "budget": 200000,
+      "employeeCount": 1
+    },
+    {
+      "id": "Sales",
+      "name": "Продажи",
+      "description": "Отдел продаж",
+      "manager": {
+        "id": 100,
+        "name": "Администратор"
+      },
+      "budget": 300000,
+      "employeeCount": 1
+    },
+    {
+      "id": "Marketing",
+      "name": "Маркетинг",
+      "description": "Отдел маркетинга",
+      "manager": {
+        "id": 100,
+        "name": "Администратор"
+      },
+      "budget": 250000,
+      "employeeCount": 1
+    },
+    {
+      "id": "Design",
+      "name": "Дизайн",
+      "description": "Отдел дизайна",
+      "manager": {
+        "id": 100,
+        "name": "Администратор"
+      },
+      "budget": 180000,
+      "employeeCount": 1
+    }
+  ]
+}

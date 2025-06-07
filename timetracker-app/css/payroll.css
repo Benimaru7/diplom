@@ -1,0 +1,804 @@
+/* ===== РАСЧЕТ ЗАРАБОТНОЙ ПЛАТЫ ===== */
+
+/* Период расчета */
+.calculation-period {
+    margin-bottom: var(--spacing-8);
+}
+
+.period-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+    color: var(--white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.period-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-6);
+}
+
+.period-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin: 0;
+}
+
+.period-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.period-controls .btn {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    backdrop-filter: blur(10px);
+}
+
+.period-controls .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.current-period {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    min-width: 150px;
+    text-align: center;
+    padding: var(--spacing-2) var(--spacing-4);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+}
+
+.period-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--spacing-3);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: var(--spacing-1);
+}
+
+.stat-value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+/* ===== МАКЕТ СТРАНИЦЫ ===== */
+.payroll-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-8);
+    margin-bottom: var(--spacing-8);
+}
+
+/* ===== КАЛЬКУЛЯТОР ЗАРПЛАТЫ ===== */
+.salary-calculator {
+    position: sticky;
+    top: var(--spacing-6);
+    height: fit-content;
+}
+
+.calculator-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+}
+
+.calculator-card .card-header {
+    background: var(--gray-50);
+    padding: var(--spacing-6);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calculator-card .card-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.calculation-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.calculator-card .card-body {
+    padding: var(--spacing-6);
+}
+
+/* Секции расчета */
+.calculation-section {
+    margin-bottom: var(--spacing-8);
+}
+
+.calculation-section h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-4);
+    padding-bottom: var(--spacing-2);
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.calculation-section h4::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--primary-color);
+    border-radius: var(--radius-sm);
+}
+
+/* Строки расчета */
+.calculation-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-lg);
+    transition: var(--transition-fast);
+    margin-bottom: var(--spacing-3);
+}
+
+.calculation-row:hover {
+    background: var(--gray-50);
+}
+
+.calculation-row.deduction {
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.calculation-row.deduction:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.calc-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.calc-label i {
+    color: var(--primary-color);
+    width: 16px;
+}
+
+.calc-label small {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.calc-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.calc-input .form-input {
+    margin: 0;
+    padding-right: var(--spacing-8);
+}
+
+.input-suffix {
+    position: absolute;
+    right: var(--spacing-3);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.calc-percentage {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.1);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-md);
+}
+
+.calc-result {
+    text-align: right;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--success-color);
+}
+
+.calc-result.deduction {
+    color: var(--error-color);
+}
+
+/* ===== ИТОГОВЫЙ РАСЧЕТ ===== */
+.calculation-total {
+    background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    margin-top: var(--spacing-6);
+}
+
+.total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.total-row:last-child {
+    border-bottom: none;
+    padding-top: var(--spacing-4);
+    margin-top: var(--spacing-2);
+    border-top: 2px solid var(--primary-color);
+}
+
+.total-label {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+.total-amount {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.total-row.gross .total-amount {
+    color: var(--info-color);
+}
+
+.total-row.deductions .total-amount {
+    color: var(--error-color);
+}
+
+.total-row.net .total-label {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.total-row.net .total-amount {
+    font-size: var(--font-size-2xl);
+    color: var(--success-color);
+}
+
+/* ===== РАСЧЕТНЫЙ ЛИСТОК ===== */
+.salary-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+.payslip-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+}
+
+.payslip-card .card-header {
+    background: var(--gray-50);
+    padding: var(--spacing-6);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.payslip-card .card-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.payslip-header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+    color: var(--white);
+    margin: calc(-1 * var(--spacing-6)) calc(-1 * var(--spacing-6)) var(--spacing-6);
+}
+
+.company-info h4,
+.employee-info h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-2);
+}
+
+.company-info p,
+.employee-info p {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: var(--spacing-1);
+}
+
+.payslip-period {
+    text-align: center;
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-6);
+    padding: var(--spacing-3);
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.payslip-table {
+    margin-bottom: var(--spacing-6);
+}
+
+.payslip-table .table {
+    font-size: var(--font-size-sm);
+}
+
+.payslip-table .table th {
+    background: var(--gray-100);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.payslip-footer {
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--gray-200);
+}
+
+.signature-block p {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-2);
+}
+
+/* ===== СТАТИСТИКА ПО ЗАРПЛАТЕ ===== */
+.salary-stats .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+}
+
+.salary-stats .stat-card {
+    background: var(--white);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.salary-stats .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-color);
+    transform: scaleY(0);
+    transition: var(--transition-fast);
+}
+
+.salary-stats .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.salary-stats .stat-card:hover::before {
+    transform: scaleY(1);
+}
+
+.salary-stats .stat-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color), #1e40af);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    flex-shrink: 0;
+}
+
+.salary-stats .stat-content h4 {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.salary-stats .stat-value {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-1);
+}
+
+.salary-stats .stat-value.positive {
+    color: var(--success-color);
+}
+
+.salary-stats .stat-description {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ===== ИСТОРИЯ ВЫПЛАТ ===== */
+.payment-history {
+    margin-bottom: var(--spacing-8);
+}
+
+.history-controls {
+    display: flex;
+    gap: var(--spacing-3);
+}
+
+.history-table {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+}
+
+.history-table .table th {
+    background: var(--gray-50);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.payment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.payment-status.paid {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.payment-status.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+.payment-status.processing {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--info-color);
+}
+
+/* ===== НАЛОГОВЫЕ ВЫЧЕТЫ ===== */
+.tax-deductions {
+    margin-bottom: var(--spacing-8);
+}
+
+.deductions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.deduction-card {
+    background: var(--white);
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.deduction-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--success-color);
+    border-radius: var(--radius-sm);
+}
+
+.deduction-card.inactive::before {
+    background: var(--gray-300);
+}
+
+.deduction-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.deduction-icon {
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--success-color), #059669);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    flex-shrink: 0;
+}
+
+.deduction-card.inactive .deduction-icon {
+    background: var(--gray-400);
+}
+
+.deduction-content {
+    flex: 1;
+}
+
+.deduction-content h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-2);
+}
+
+.deduction-amount {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--success-color);
+    margin-bottom: var(--spacing-1);
+}
+
+.deduction-card.inactive .deduction-amount {
+    color: var(--text-muted);
+}
+
+.deduction-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.deduction-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-md);
+}
+
+.deduction-status.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.deduction-status.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+.deduction-status.completed {
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--gray-600);
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1199px) {
+    .payroll-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .salary-calculator {
+        position: relative;
+        top: auto;
+    }
+    
+    .period-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .salary-stats .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .period-header {
+        flex-direction: column;
+        gap: var(--spacing-4);
+        align-items: stretch;
+    }
+    
+    .period-controls {
+        justify-content: center;
+    }
+    
+    .period-stats {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3);
+    }
+    
+    .calculation-row {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2);
+        text-align: left;
+    }
+    
+    .calc-result {
+        text-align: left;
+        font-size: var(--font-size-base);
+    }
+    
+    .payslip-header {
+        flex-direction: column;
+        gap: var(--spacing-4);
+        text-align: center;
+    }
+    
+    .salary-stats .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3);
+    }
+    
+    .deductions-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .history-table {
+        overflow-x: auto;
+    }
+    
+    .history-table .table {
+        min-width: 800px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: var(--spacing-4);
+        align-items: stretch;
+    }
+    
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 479px) {
+    .calculator-card .card-header,
+    .calculator-card .card-body,
+    .payslip-card .card-body {
+        padding: var(--spacing-4);
+    }
+    
+    .calculation-section {
+        margin-bottom: var(--spacing-6);
+    }
+    
+    .calculation-row {
+        padding: var(--spacing-3);
+    }
+    
+    .calculation-total {
+        padding: var(--spacing-4);
+    }
+    
+    .total-row.net .total-amount {
+        font-size: var(--font-size-xl);
+    }
+    
+    .payslip-header {
+        margin: calc(-1 * var(--spacing-4)) calc(-1 * var(--spacing-4)) var(--spacing-4);
+        padding: var(--spacing-4);
+    }
+    
+    .deduction-card {
+        padding: var(--spacing-4);
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-3);
+    }
+    
+    .deduction-icon {
+        align-self: center;
+    }
+    
+    .period-card {
+        padding: var(--spacing-4);
+    }
+    
+    .stat-item {
+        padding: var(--spacing-2);
+    }
+}
+
+/* ===== ПЕЧАТЬ ===== */
+@media print {
+    .navbar,
+    .header-actions,
+    .period-controls,
+    .history-controls,
+    .section-header button,
+    .modal {
+        display: none !important;
+    }
+    
+    .payroll-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .calculator-card,
+    .payslip-card,
+    .history-table {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .calculator-card .card-header,
+    .payslip-card .card-header {
+        background: #f5f5f5;
+        border-bottom: 1px solid #000;
+    }
+    
+    .payslip-header {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+    }
+    
+    .page-header h1 {
+        color: #000;
+        font-size: 24px;
+    }
+    
+    .calculation-total {
+        border: 2px solid #000;
+    }
+    
+    .total-row:last-child {
+        border-top: 2px solid #000;
+    }
+}

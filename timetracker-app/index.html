@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeTracker Pro - Учет рабочего времени</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Главная</a>
+                <a href="employee-dashboard.html" class="nav-link active"><i class="fas fa-home"></i>мой кабинет</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="admin-panel.html"><i class="fas fa-cog"></i> Админ-панель</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <h1>Добро пожаловать, Иван!</h1>
+                <p class="page-subtitle">Сегодня: <span id="current-date"></span></p>
+            </div>
+
+            <!-- Быстрые действия -->
+            <section class="quick-actions">
+                <div class="action-card check-in" id="checkInCard">
+                    <div class="action-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Отметить приход</h3>
+                        <p>Начать рабочий день</p>
+                        <button class="btn btn-primary" onclick="checkIn()">Пришел</button>
+                    </div>
+                    <div class="action-time">
+                        <span id="currentTime"></span>
+                    </div>
+                </div>
+
+                <div class="action-card check-out hidden" id="checkOutCard">
+                    <div class="action-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="action-content">
+                        <h3>Отметить уход</h3>
+                        <p>Завершить рабочий день</p>
+                        <button class="btn btn-secondary" onclick="checkOut()">Ушел</button>
+                    </div>
+                    <div class="action-time">
+                        <span>Работаю: <span id="workDuration">0ч 0м</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Статистика -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Сегодня</h3>
+                        <div class="stat-value" id="todayHours">0ч 0м</div>
+                        <div class="stat-label">Отработано</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Эта неделя</h3>
+                        <div class="stat-value" id="weekHours">24ч 30м</div>
+                        <div class="stat-label">из 40ч</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Этот месяц</h3>
+                        <div class="stat-value" id="monthHours">142ч 15м</div>
+                        <div class="stat-label">из 160ч</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ruble-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Зарплата</h3>
+                        <div class="stat-value" id="currentSalary">45,750₽</div>
+                        <div class="stat-label">За месяц</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Последние записи -->
+            <section class="recent-activity">
+                <div class="section-header">
+                    <h2>Последние записи</h2>
+                    <a href="timesheet.html" class="btn btn-outline">Все записи</a>
+                </div>
+                
+                <div class="activity-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Приход</th>
+                                <th>Уход</th>
+                                <th>Всего</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentRecords">
+                            <tr>
+                                <td>30.05.2025</td>
+                                <td>09:00</td>
+                                <td>18:00</td>
+                                <td>8ч 0м</td>
+                                <td><span class="status status-complete">Завершен</span></td>
+                            </tr>
+                            <tr>
+                                <td>29.05.2025</td>
+                                <td>09:15</td>
+                                <td>17:45</td>
+                                <td>7ч 30м</td>
+                                <td><span class="status status-complete">Завершен</span></td>
+                            </tr>
+                            <tr>
+                                <td>28.05.2025</td>
+                                <td>08:45</td>
+                                <td>18:30</td>
+                                <td>8ч 45м</td>
+                                <td><span class="status status-overtime">Переработка</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Уведомления -->
+            <section class="notifications">
+                <div class="section-header">
+                    <h2>Уведомления</h2>
+                </div>
+                
+                <div class="notification-list">
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Обновление системы</h4>
+                            <p>Запланировано техническое обслуживание на 01.06.2025</p>
+                            <span class="notification-time">2 часа назад</span>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>Опоздание</h4>
+                            <p>Вчера вы пришли на работу с опозданием на 15 минут</p>
+                            <span class="notification-time">1 день назад</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TimeTracker Pro. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div id="checkInModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Отметка прихода</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Подтвердите отметку прихода на работу</p>
+                <div class="time-display">
+                    <i class="fas fa-clock"></i>
+                    <span id="modalTime"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+                <button class="btn btn-primary" onclick="confirmCheckIn()">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/app.js"></script>
+    <script src="server/app.js"></script>
+    <script src="server/config/config.js"></script>
+    <script src="server/config/database.js"></script>
+</body>
+</html>

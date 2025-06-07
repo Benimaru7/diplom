@@ -1,0 +1,607 @@
+{
+  "timesheetPeriods": [
+    {
+      "id": "2025-05",
+      "year": 2025,
+      "month": 5,
+      "startDate": "2025-05-01",
+      "endDate": "2025-05-31",
+      "workingDays": 22,
+      "weekends": 8,
+      "holidays": 1,
+      "status": "completed"
+    }
+  ],
+  "employeeTimesheets": [
+    {
+      "employeeId": 1,
+      "period": "2025-05",
+      "summary": {
+        "scheduledHours": 176,
+        "actualHours": 188,
+        "regularHours": 176,
+        "overtimeHours": 12,
+        "weekendHours": 0,
+        "holidayHours": 0,
+        "absenceHours": 0,
+        "efficiency": 106.8,
+        "daysWorked": 22,
+        "daysAbsent": 0,
+        "lateArrivals": 3,
+        "earlyDepartures": 1
+      },
+      "dailyRecords": [
+        {
+          "date": "2025-05-01",
+          "dayOfWeek": "четверг",
+          "scheduled": {
+            "startTime": "09:00",
+            "endTime": "18:00",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "09:15",
+            "checkOut": "18:30",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00",
+            "totalHours": 8.25,
+            "regularHours": 8,
+            "overtimeHours": 0.25
+          },
+          "status": "present",
+          "notes": "Задержался для завершения задачи",
+          "projects": [
+            {
+              "id": "PROJ001",
+              "name": "Веб-приложение",
+              "hours": 6.5
+            },
+            {
+              "id": "PROJ002",
+              "name": "Мобильное приложение",
+              "hours": 1.75
+            }
+          ]
+        },
+        {
+          "date": "2025-05-02",
+          "dayOfWeek": "пятница",
+          "scheduled": {
+            "startTime": "09:00",
+            "endTime": "18:00",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "09:00",
+            "checkOut": "19:00",
+            "lunchStart": "13:30",
+            "lunchEnd": "14:30",
+            "totalHours": 9,
+            "regularHours": 8,
+            "overtimeHours": 1
+          },
+          "status": "present",
+          "notes": "Работа над критической ошибкой",
+          "projects": [
+            {
+              "id": "PROJ001",
+              "name": "Веб-приложение",
+              "hours": 9
+            }
+          ]
+        },
+        {
+          "date": "2025-05-03",
+          "dayOfWeek": "суббота",
+          "scheduled": {
+            "startTime": null,
+            "endTime": null,
+            "lunchBreak": 0,
+            "totalHours": 0
+          },
+          "actual": {
+            "checkIn": null,
+            "checkOut": null,
+            "totalHours": 0
+          },
+          "status": "weekend",
+          "notes": "Выходной день"
+        },
+        {
+          "date": "2025-05-04",
+          "dayOfWeek": "воскресенье",
+          "scheduled": {
+            "startTime": null,
+            "endTime": null,
+            "lunchBreak": 0,
+            "totalHours": 0
+          },
+          "actual": {
+            "checkIn": null,
+            "checkOut": null,
+            "totalHours": 0
+          },
+          "status": "weekend",
+          "notes": "Выходной день"
+        },
+        {
+          "date": "2025-05-05",
+          "dayOfWeek": "понедельник",
+          "scheduled": {
+            "startTime": "09:00",
+            "endTime": "18:00",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "08:45",
+            "checkOut": "18:00",
+            "lunchStart": "12:45",
+            "lunchEnd": "13:45",
+            "totalHours": 8.25,
+            "regularHours": 8,
+            "overtimeHours": 0.25
+          },
+          "status": "present",
+          "notes": "Пришел раньше для подготовки к встрече",
+          "projects": [
+            {
+              "id": "PROJ001",
+              "name": "Веб-приложение",
+              "hours": 5
+            },
+            {
+              "id": "PROJ003",
+              "name": "Внутренняя система",
+              "hours": 3.25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeId": 2,
+      "period": "2025-05",
+      "summary": {
+        "scheduledHours": 176,
+        "actualHours": 184,
+        "regularHours": 176,
+        "overtimeHours": 8,
+        "weekendHours": 0,
+        "holidayHours": 0,
+        "absenceHours": 0,
+        "efficiency": 104.5,
+        "daysWorked": 22,
+        "daysAbsent": 0,
+        "lateArrivals": 1,
+        "earlyDepartures": 0
+      },
+      "dailyRecords": [
+        {
+          "date": "2025-05-01",
+          "dayOfWeek": "четверг",
+          "scheduled": {
+            "startTime": "10:00",
+            "endTime": "19:00",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "10:00",
+            "checkOut": "19:30",
+            "lunchStart": "14:00",
+            "lunchEnd": "15:00",
+            "totalHours": 8.5,
+            "regularHours": 8,
+            "overtimeHours": 0.5
+          },
+          "status": "present",
+          "notes": "Работа над дизайн-системой",
+          "projects": [
+            {
+              "id": "PROJ004",
+              "name": "Дизайн-система",
+              "hours": 6
+            },
+            {
+              "id": "PROJ005",
+              "name": "UI кит",
+              "hours": 2.5
+            }
+          ]
+        },
+        {
+          "date": "2025-05-02",
+          "dayOfWeek": "пятница",
+          "scheduled": {
+            "startTime": "10:00",
+            "endTime": "19:00",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "10:20",
+            "checkOut": "19:00",
+            "lunchStart": "13:30",
+            "lunchEnd": "14:30",
+            "totalHours": 7.67,
+            "regularHours": 7.67,
+            "overtimeHours": 0
+          },
+          "status": "present",
+          "notes": "Опоздание из-за пробок",
+          "projects": [
+            {
+              "id": "PROJ004",
+              "name": "Дизайн-система",
+              "hours": 4.5
+            },
+            {
+              "id": "PROJ006",
+              "name": "Презентация",
+              "hours": 3.17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeId": 3,
+      "period": "2025-05",
+      "summary": {
+        "scheduledHours": 176,
+        "actualHours": 204,
+        "regularHours": 176,
+        "overtimeHours": 20,
+        "weekendHours": 8,
+        "holidayHours": 0,
+        "absenceHours": 0,
+        "efficiency": 115.9,
+        "daysWorked": 24,
+        "daysAbsent": 0,
+        "lateArrivals": 0,
+        "earlyDepartures": 0
+      },
+      "dailyRecords": [
+        {
+          "date": "2025-05-01",
+          "dayOfWeek": "четверг",
+          "scheduled": {
+            "startTime": "09:30",
+            "endTime": "18:30",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "09:30",
+            "checkOut": "20:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00",
+            "totalHours": 9.5,
+            "regularHours": 8,
+            "overtimeHours": 1.5
+          },
+          "status": "present",
+          "notes": "Релиз новой версии API",
+          "projects": [
+            {
+              "id": "PROJ007",
+              "name": "API v2.0",
+              "hours": 7
+            },
+            {
+              "id": "PROJ008",
+              "name": "Документация",
+              "hours": 2.5
+            }
+          ]
+        },
+        {
+          "date": "2025-05-03",
+          "dayOfWeek": "суббота",
+          "scheduled": {
+            "startTime": null,
+            "endTime": null,
+            "lunchBreak": 0,
+            "totalHours": 0
+          },
+          "actual": {
+            "checkIn": "10:00",
+            "checkOut": "14:00",
+            "lunchStart": null,
+            "lunchEnd": null,
+            "totalHours": 4,
+            "regularHours": 0,
+            "overtimeHours": 0,
+            "weekendHours": 4
+          },
+          "status": "weekend_work",
+          "notes": "Экстренное исправление бага",
+          "projects": [
+            {
+              "id": "PROJ007",
+              "name": "API v2.0",
+              "hours": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "employeeId": 4,
+      "period": "2025-05",
+      "summary": {
+        "scheduledHours": 176,
+        "actualHours": 180,
+        "regularHours": 176,
+        "overtimeHours": 4,
+        "weekendHours": 0,
+        "holidayHours": 0,
+        "absenceHours": 0,
+        "efficiency": 102.3,
+        "daysWorked": 22,
+        "daysAbsent": 0,
+        "lateArrivals": 0,
+        "earlyDepartures": 2
+      },
+      "dailyRecords": [
+        {
+          "date": "2025-05-01",
+          "dayOfWeek": "четверг",
+          "scheduled": {
+            "startTime": "08:30",
+            "endTime": "17:30",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "08:30",
+            "checkOut": "17:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
+            "totalHours": 8,
+            "regularHours": 8,
+            "overtimeHours": 0
+          },
+          "status": "present",
+          "notes": "Собеседования с кандидатами",
+          "projects": [
+            {
+              "id": "PROJ009",
+              "name": "Подбор персонала",
+              "hours": 6
+            },
+            {
+              "id": "PROJ010",
+              "name": "Документооборот",
+              "hours": 2
+            }
+          ]
+        },
+        {
+          "date": "2025-05-15",
+          "dayOfWeek": "четверг",
+          "scheduled": {
+            "startTime": "08:30",
+            "endTime": "17:30",
+            "lunchBreak": 60,
+            "totalHours": 8
+          },
+          "actual": {
+            "checkIn": "08:30",
+            "checkOut": "16:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
+            "totalHours": 7,
+            "regularHours": 7,
+            "overtimeHours": 0
+          },
+          "status": "early_departure",
+          "notes": "Семейные обстоятельства",
+          "projects": [
+            {
+              "id": "PROJ009",
+              "name": "Подбор персонала",
+              "hours": 5
+            },
+            {
+              "id": "PROJ011",
+              "name": "Обучение",
+              "hours": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "PROJ001",
+      "name": "Веб-приложение",
+      "description": "Разработка корпоративного веб-приложения",
+      "status": "active",
+      "startDate": "2025-03-01",
+      "endDate": "2025-08-31",
+      "manager": "Администратор",
+      "budget": 500000,
+      "totalHours": 1200,
+      "spentHours": 456
+    },
+    {
+      "id": "PROJ002",
+      "name": "Мобильное приложение",
+      "description": "Разработка мобильного приложения для iOS и Android",
+      "status": "active",
+      "startDate": "2025-04-15",
+      "endDate": "2025-09-15",
+      "manager": "Администратор",
+      "budget": 400000,
+      "totalHours": 800,
+      "spentHours": 123
+    },
+    {
+      "id": "PROJ003",
+      "name": "Внутренняя система",
+      "description": "Система управления внутренними процессами",
+      "status": "active",
+      "startDate": "2025-02-01",
+      "endDate": "2025-07-31",
+      "manager": "Администратор",
+      "budget": 300000,
+      "totalHours": 600,
+      "spentHours": 234
+    },
+    {
+      "id": "PROJ004",
+      "name": "Дизайн-система",
+      "description": "Создание единой дизайн-системы компании",
+      "status": "active",
+      "startDate": "2025-01-15",
+      "endDate": "2025-06-15",
+      "manager": "Администратор",
+      "budget": 200000,
+      "totalHours": 400,
+      "spentHours": 189
+    },
+    {
+      "id": "PROJ005",
+      "name": "UI кит",
+      "description": "Разработка библиотеки UI компонентов",
+      "status": "active",
+      "startDate": "2025-03-01",
+      "endDate": "2025-06-30",
+      "manager": "Администратор",
+      "budget": 150000,
+      "totalHours": 300,
+      "spentHours": 87
+    },
+    {
+      "id": "PROJ006",
+      "name": "Презентация",
+      "description": "Подготовка презентации для инвесторов",
+      "status": "completed",
+      "startDate": "2025-04-20",
+      "endDate": "2025-05-10",
+      "manager": "Администратор",
+      "budget": 50000,
+      "totalHours": 80,
+      "spentHours": 78
+    },
+    {
+      "id": "PROJ007",
+      "name": "API v2.0",
+      "description": "Разработка новой версии API",
+      "status": "active",
+      "startDate": "2025-04-01",
+      "endDate": "2025-07-31",
+      "manager": "Администратор",
+      "budget": 350000,
+      "totalHours": 700,
+      "spentHours": 267
+    },
+    {
+      "id": "PROJ008",
+      "name": "Документация",
+      "description": "Техническая документация API",
+      "status": "active",
+      "startDate": "2025-04-15",
+      "endDate": "2025-08-15",
+      "manager": "Администратор",
+      "budget": 100000,
+      "totalHours": 200,
+      "spentHours": 45
+    },
+    {
+      "id": "PROJ009",
+      "name": "Подбор персонала",
+      "description": "Поиск и подбор новых сотрудников",
+      "status": "ongoing",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "manager": "Анна Смирнова",
+      "budget": 200000,
+      "totalHours": 500,
+      "spentHours": 156
+    },
+    {
+      "id": "PROJ010",
+      "name": "Документооборот",
+      "description": "Оптимизация документооборота компании",
+      "status": "active",
+      "startDate": "2025-03-01",
+      "endDate": "2025-08-31",
+      "manager": "Анна Смирнова",
+      "budget": 120000,
+      "totalHours": 240,
+      "spentHours": 67
+    },
+    {
+      "id": "PROJ011",
+      "name": "Обучение",
+      "description": "Программа обучения и развития персонала",
+      "status": "active",
+      "startDate": "2025-02-15",
+      "endDate": "2025-12-15",
+      "manager": "Анна Смирнова",
+      "budget": 180000,
+      "totalHours": 360,
+      "spentHours": 89
+    }
+  ],
+  "attendanceSettings": {
+    "workingDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "holidays": [
+      {
+        "date": "2025-05-09",
+        "name": "День Победы",
+        "type": "national"
+      },
+      {
+        "date": "2025-06-15",
+        "name": "День независимости",
+        "type": "national"
+      }
+    ],
+    "lateThreshold": 15,
+    "earlyDepartureThreshold": 30,
+    "overtimeThreshold": 8,
+    "allowedBreaks": [
+      {
+        "name": "Обед",
+        "duration": 60,
+        "required": true
+      },
+      {
+        "name": "Перерыв",
+        "duration": 15,
+        "required": false
+      }
+    ]
+  },
+  "reports": {
+    "monthlyAttendance": {
+      "period": "2025-05",
+      "totalEmployees": 6,
+      "averageHoursWorked": 189.3,
+      "totalOvertimeHours": 44,
+      "attendanceRate": 98.5,
+      "punctualityRate": 92.3,
+      "topPerformers": [
+        {
+          "employeeId": 3,
+          "name": "Бексултан Кылычбеков",
+          "hoursWorked": 204,
+          "efficiency": 115.9
+        },
+        {
+          "employeeId": 1,
+          "name": "Иван Петров",
+          "hoursWorked": 188,
+          "efficiency": 106.8
+        }
+      ]
+    }
+  }
+}

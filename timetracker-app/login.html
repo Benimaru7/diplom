@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход / Регистрация - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth-extras.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="auth-body">
+    <!-- Фоновые элементы -->
+    <div class="auth-background">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+        <div class="bg-grid"></div>
+    </div>
+
+    <!-- Основной контейнер -->
+    <div class="auth-container">
+        <!-- Левая панель с информацией -->
+        <div class="auth-info">
+            <div class="auth-info-content">
+                <div class="brand-section">
+                    <div class="brand-logo">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h1>TimeTracker Pro</h1>
+                    <p class="brand-subtitle">Современная система учета рабочего времени</p>
+                </div>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-stopwatch"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Точный учет времени</h3>
+                            <p>Автоматическое отслеживание рабочих часов с точностью до минуты</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Детальная аналитика</h3>
+                            <p>Подробные отчеты и статистика по рабочему времени</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Автоматический расчет зарплаты</h3>
+                            <p>Мгновенный расчет заработной платы на основе отработанных часов</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Мобильная адаптация</h3>
+                            <p>Удобный интерфейс для работы с любого устройства</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <blockquote>
+                        "TimeTracker Pro помог нам автоматизировать учет рабочего времени и значительно упростить расчет заработной платы для всех сотрудников."
+                    </blockquote>
+                    <cite>
+                        <img src="assets/images/avatars/testimonial.png" alt="Отзыв">
+                        <div>
+                            <strong>Анна Смирнова</strong>
+                            <span>HR-директор, ООО "Инновации"</span>
+                        </div>
+                    </cite>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая панель с формами -->
+        <div class="auth-form-section">
+            <div class="auth-form-container">
+                <!-- Переключатель Вход/Регистрация -->
+                <div class="auth-mode-switcher">
+                    <button class="mode-btn active" data-mode="login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Вход
+                    </button>
+                    <button class="mode-btn" data-mode="register">
+                        <i class="fas fa-user-plus"></i>
+                        Регистрация
+                    </button>
+                </div>
+
+                <!-- Переключатель ролей -->
+                <div class="role-switcher">
+                    <button class="role-btn active" data-role="employee">
+                        <i class="fas fa-user"></i>
+                        <span>Сотрудник</span>
+                    </button>
+                    <button class="role-btn" data-role="admin">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Администратор</span>
+                    </button>
+                </div>
+
+                <!-- ФОРМЫ ВХОДА -->
+                <div class="auth-forms" id="loginForms">
+                    <!-- Форма входа сотрудника -->
+                    <form class="auth-form" id="employeeLoginForm">
+                        <div class="form-header">
+                            <h2>Вход для сотрудников</h2>
+                            <p>Войдите в систему для учета рабочего времени</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-employee-email">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input 
+                                type="email" 
+                                id="login-employee-email" 
+                                class="form-input" 
+                                placeholder="ivan.petrov@company.com"
+                                value="ivan.petrov@company.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-employee-password">
+                                <i class="fas fa-lock"></i>
+                                Пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="login-employee-password" 
+                                    class="form-input" 
+                                    placeholder="Введите пароль"
+                                    value="123456"
+                                    required
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('login-employee-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remember-employee-login">
+                                <span class="checkbox-custom"></span>
+                                Запомнить меня
+                            </label>
+
+                            <a href="#" class="forgot-link">Забыли пароль?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Войти в систему
+                        </button>
+
+                        <div class="quick-login">
+                            <p>Быстрый вход для демо:</p>
+                            <div class="demo-accounts">
+                                <button type="button" class="demo-btn" onclick="quickLogin('employee', 'ivan')">
+                                    <i class="fas fa-user"></i>
+                                    Иван Петров
+                                </button>
+                                <button type="button" class="demo-btn" onclick="quickLogin('employee', 'maria')">
+                                    <i class="fas fa-user"></i>
+                                    Мария Сидорова
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Форма входа администратора -->
+                    <form class="auth-form hidden" id="adminLoginForm">
+                        <div class="form-header">
+                            <h2>Административная панель</h2>
+                            <p>Управление системой и сотрудниками</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-admin-email">
+                                <i class="fas fa-envelope"></i>
+                                Email администратора
+                            </label>
+                            <input 
+                                type="email" 
+                                id="login-admin-email" 
+                                class="form-input" 
+                                placeholder="admin@company.com"
+                                value="admin@company.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-admin-password">
+                                <i class="fas fa-lock"></i>
+                                Пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="login-admin-password" 
+                                    class="form-input" 
+                                    placeholder="Введите пароль"
+                                    value="admin123"
+                                    required
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('login-admin-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-admin-code">
+                                <i class="fas fa-key"></i>
+                                Код доступа
+                            </label>
+                            <input 
+                                type="text" 
+                                id="login-admin-code" 
+                                class="form-input" 
+                                placeholder="Введите код доступа"
+                                value="ADMIN2025"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="remember-admin-login">
+                                <span class="checkbox-custom"></span>
+                                Запомнить сессию
+                            </label>
+
+                            <a href="#" class="forgot-link">Восстановить доступ</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-shield-alt"></i>
+                            Войти как администратор
+                        </button>
+
+                        <div class="quick-login">
+                            <p>Быстрый вход для демо:</p>
+                            <div class="demo-accounts">
+                                <button type="button" class="demo-btn" onclick="quickLogin('admin', 'main')">
+                                    <i class="fas fa-user-shield"></i>
+                                    Главный администратор
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ФОРМЫ РЕГИСТРАЦИИ -->
+                <div class="auth-forms hidden" id="registerForms">
+                    <!-- Форма регистрации сотрудника -->
+                    <form class="auth-form" id="employeeRegisterForm">
+                        <div class="form-header">
+                            <h2>Регистрация сотрудника</h2>
+                            <p>Создайте аккаунт для учета рабочего времени</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="register-employee-firstname">
+                                    <i class="fas fa-user"></i>
+                                    Имя
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-employee-firstname" 
+                                    class="form-input" 
+                                    placeholder="Иван"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="register-employee-lastname">
+                                    <i class="fas fa-user"></i>
+                                    Фамилия
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-employee-lastname" 
+                                    class="form-input" 
+                                    placeholder="Петров"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-employee-email">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input 
+                                type="email" 
+                                id="register-employee-email" 
+                                class="form-input" 
+                                placeholder="ivan.petrov@company.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-employee-phone">
+                                <i class="fas fa-phone"></i>
+                                Телефон
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="register-employee-phone" 
+                                class="form-input" 
+                                placeholder="+7 (999) 123-45-67"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="register-employee-department">
+                                    <i class="fas fa-building"></i>
+                                    Отдел
+                                </label>
+                                <select id="register-employee-department" class="form-select" required>
+                                    <option value="">Выберите отдел</option>
+                                    <option value="IT">IT отдел</option>
+                                    <option value="HR">HR отдел</option>
+                                    <option value="Sales">Продажи</option>
+                                    <option value="Marketing">Маркетинг</option>
+                                    <option value="Finance">Финансы</option>
+                                    <option value="Design">Дизайн</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="register-employee-position">
+                                    <i class="fas fa-briefcase"></i>
+                                    Должность
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-employee-position" 
+                                    class="form-input" 
+                                    placeholder="Frontend Developer"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-employee-password">
+                                <i class="fas fa-lock"></i>
+                                Пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="register-employee-password" 
+                                    class="form-input" 
+                                    placeholder="Создайте надежный пароль"
+                                    required
+                                    minlength="6"
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('register-employee-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="employeePasswordStrength"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-employee-confirm-password">
+                                <i class="fas fa-check"></i>
+                                Подтвердите пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="register-employee-confirm-password" 
+                                    class="form-input" 
+                                    placeholder="Повторите пароль"
+                                    required
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('register-employee-confirm-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agree-terms-employee" required>
+                                <span class="checkbox-custom"></span>
+                                Я согласен с <a href="#" class="terms-link">условиями использования</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-user-plus"></i>
+                            Создать аккаунт
+                        </button>
+                    </form>
+
+                    <!-- Форма регистрации администратора -->
+                    <form class="auth-form hidden" id="adminRegisterForm">
+                        <div class="form-header">
+                            <h2>Регистрация администратора</h2>
+                            <p>Создайте административный аккаунт</p>
+                        </div>
+
+                        <div class="admin-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Регистрация администратора требует специального кода доступа от вашей организации</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="register-admin-firstname">
+                                    <i class="fas fa-user"></i>
+                                    Имя
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-admin-firstname" 
+                                    class="form-input" 
+                                    placeholder="Анна"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="register-admin-lastname">
+                                    <i class="fas fa-user"></i>
+                                    Фамилия
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-admin-lastname" 
+                                    class="form-input" 
+                                    placeholder="Администратор"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-email">
+                                <i class="fas fa-envelope"></i>
+                                Email администратора
+                            </label>
+                            <input 
+                                type="email" 
+                                id="register-admin-email" 
+                                class="form-input" 
+                                placeholder="admin@company.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-phone">
+                                <i class="fas fa-phone"></i>
+                                Телефон
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="register-admin-phone" 
+                                class="form-input" 
+                                placeholder="+7 (999) 123-45-67"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-company">
+                                <i class="fas fa-building"></i>
+                                Название компании
+                            </label>
+                            <input 
+                                type="text" 
+                                id="register-admin-company" 
+                                class="form-input" 
+                                placeholder="ООО ТехИнновации"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-access-code">
+                                <i class="fas fa-key"></i>
+                                Код доступа администратора
+                            </label>
+                            <input 
+                                type="text" 
+                                id="register-admin-access-code" 
+                                class="form-input" 
+                                placeholder="Введите специальный код"
+                                required
+                            >
+                            <small class="form-note">Получите код у вашего IT-отдела или поставщика системы</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-password">
+                                <i class="fas fa-lock"></i>
+                                Пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="register-admin-password" 
+                                    class="form-input" 
+                                    placeholder="Создайте надежный пароль"
+                                    required
+                                    minlength="8"
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('register-admin-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="adminPasswordStrength"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-admin-confirm-password">
+                                <i class="fas fa-check"></i>
+                                Подтвердите пароль
+                            </label>
+                            <div class="password-input">
+                                <input 
+                                    type="password" 
+                                    id="register-admin-confirm-password" 
+                                    class="form-input" 
+                                    placeholder="Повторите пароль"
+                                    required
+                                >
+                                <button type="button" class="password-toggle" onclick="togglePassword('register-admin-confirm-password')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agree-terms-admin" required>
+                                <span class="checkbox-custom"></span>
+                                Я согласен с <a href="#" class="terms-link">условиями использования</a> и <a href="#" class="terms-link">политикой конфиденциальности</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-shield-alt"></i>
+                            Создать администратора
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Дополнительная информация -->
+                <div class="auth-footer">
+                    <div class="help-links">
+                        <a href="#" class="help-link">
+                            <i class="fas fa-question-circle"></i>
+                            Помощь
+                        </a>
+                        <a href="#" class="help-link">
+                            <i class="fas fa-phone"></i>
+                            Поддержка
+                        </a>
+                        <a href="#" class="help-link">
+                            <i class="fas fa-book"></i>
+                            Инструкция
+                        </a>
+                    </div>
+
+                    <div class="auth-info-text">
+                        <p>
+                            <i class="fas fa-info-circle"></i>
+                            <span id="authModeInfo">Войдите в систему используя ваши учетные данные</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Прелоадер -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner-large"></div>
+            <h3 id="loadingTitle">Вход в систему...</h3>
+            <p id="loadingText">Проверяем данные и загружаем интерфейс</p>
+        </div>
+    </div>
+
+    <!-- Модальное окно успешной регистрации -->
+    <div id="registrationSuccessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Регистрация завершена!</h3>
+            </div>
+            <div class="modal-body">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h4>Добро пожаловать в TimeTracker Pro!</h4>
+                    <p id="registrationSuccessMessage">Ваш аккаунт успешно создан. Теперь вы можете войти в систему.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeRegistrationModal()">Войти в систему</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/auth.js"></script>
+    <script>
+        // Инициализация страницы авторизации
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuthPage();
+        });
+    </script>
+    <script src="server/routes/auth.js"></script>
+</body>
+</html>

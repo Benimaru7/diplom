@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="nav-logo">
+                    <i class="fas fa-clock"></i>
+                    <span>TimeTracker Pro</span>
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Главная</span>
+                    </a></li>
+                    <li><a href="timesheet.html" class="nav-link">
+                        <i class="fas fa-table"></i>
+                        <span>Табель</span>
+                    </a></li>
+                    <li><a href="calendar.html" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Календарь</span>
+                    </a></li>
+                    <li><a href="reports.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Отчеты</span>
+                    </a></li>
+                    <li><a href="settings.html" class="nav-link active">
+                        <i class="fas fa-cog"></i>
+                        <span>Настройки</span>
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="nav-notifications">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </button>
+                </div>
+
+                <div class="nav-user-menu">
+                    <button class="user-menu-btn" id="userMenuBtn">
+                        <img src="assets/images/avatars/ivan.png" alt="Профиль" class="user-avatar">
+                        <span class="user-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="settings-container">
+            <!-- Заголовок страницы -->
+            <div class="settings-header">
+                <div class="settings-title">
+                    <h1>
+                        <i class="fas fa-cog"></i>
+                        Настройки системы
+                    </h1>
+                    <p>Персонализация и конфигурация TimeTracker Pro</p>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn btn-secondary" id="resetSettings">
+                        <i class="fas fa-undo"></i>
+                        Сбросить
+                    </button>
+                    <button class="btn btn-primary" id="saveSettings">
+                        <i class="fas fa-save"></i>
+                        Сохранить изменения
+                    </button>
+                </div>
+            </div>
+
+            <!-- Навигация по разделам настроек -->
+            <div class="settings-navigation">
+                <div class="settings-tabs">
+                    <button class="settings-tab active" data-tab="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Профиль</span>
+                    </button>
+                    <button class="settings-tab" data-tab="appearance">
+                        <i class="fas fa-palette"></i>
+                        <span>Внешний вид</span>
+                    </button>
+                    <button class="settings-tab" data-tab="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Уведомления</span>
+                    </button>
+                    <button class="settings-tab" data-tab="work">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Рабочие настройки</span>
+                    </button>
+                    <button class="settings-tab" data-tab="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Безопасность</span>
+                    </button>
+                    <button class="settings-tab" data-tab="integrations">
+                        <i class="fas fa-plug"></i>
+                        <span>Интеграции</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Содержимое настроек -->
+            <div class="settings-content">
+                <!-- Вкладка "Профиль" -->
+                <div class="settings-panel active" id="profile-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-user"></i>
+                            Настройки профиля
+                        </h2>
+                        <p>Управление личной информацией и аватаром</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Личная информация</h3>
+                        </div>
+                        
+                        <div class="profile-avatar-section">
+                            <div class="avatar-container">
+                                <img src="assets/images/avatars/ivan.png" alt="Аватар" class="profile-avatar" id="currentAvatar">
+                                <button class="avatar-edit-btn" id="editAvatarBtn">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="avatar-info">
+                                <h4>Фото профиля</h4>
+                                <p>Рекомендуемый размер: 200x200 пикселей</p>
+                                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                                <button class="btn btn-outline btn-sm" onclick="document.getElementById('avatarInput').click()">
+                                    <i class="fas fa-upload"></i>
+                                    Загрузить фото
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="firstName">
+                                    <i class="fas fa-user"></i>
+                                    Имя
+                                </label>
+                                <input type="text" id="firstName" class="form-input" value="Иван">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lastName">
+                                    <i class="fas fa-user"></i>
+                                    Фамилия
+                                </label>
+                                <input type="text" id="lastName" class="form-input" value="Петров">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </label>
+                                <input type="email" id="email" class="form-input" value="ivan.petrov@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="phone">
+                                    <i class="fas fa-phone"></i>
+                                    Телефон
+                                </label>
+                                <input type="tel" id="phone" class="form-input" value="+7 (999) 123-45-67">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="position">
+                                <i class="fas fa-briefcase"></i>
+                                Должность
+                            </label>
+                            <input type="text" id="position" class="form-input" value="Frontend Developer" readonly>
+                            <small class="form-help">Изменяется только администратором</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка "Внешний вид" -->
+                <div class="settings-panel" id="appearance-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-palette"></i>
+                            Внешний вид
+                        </h2>
+                        <p>Настройка темы, языка и отображения интерфейса</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Тема интерфейса</h3>
+                        </div>
+                        
+                        <div class="theme-selector">
+                            <div class="theme-option">
+                                <input type="radio" id="theme-light" name="theme" value="light" checked>
+                                <label for="theme-light" class="theme-card">
+                                    <div class="theme-preview light-theme">
+                                        <div class="preview-header"></div>
+                                        <div class="preview-content">
+                                            <div class="preview-sidebar"></div>
+                                            <div class="preview-main"></div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-info">
+                                        <h4>Светлая тема</h4>
+                                        <p>Классический светлый интерфейс</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="theme-option">
+                                <input type="radio" id="theme-dark" name="theme" value="dark">
+                                <label for="theme-dark" class="theme-card">
+                                    <div class="theme-preview dark-theme">
+                                        <div class="preview-header"></div>
+                                        <div class="preview-content">
+                                            <div class="preview-sidebar"></div>
+                                            <div class="preview-main"></div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-info">
+                                        <h4>Темная тема</h4>
+                                        <p>Темный режим для работы в темное время</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="theme-option">
+                                <input type="radio" id="theme-auto" name="theme" value="auto">
+                                <label for="theme-auto" class="theme-card">
+                                    <div class="theme-preview auto-theme">
+                                        <div class="preview-header"></div>
+                                        <div class="preview-content">
+                                            <div class="preview-sidebar"></div>
+                                            <div class="preview-main"></div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-info">
+                                        <h4>Автоматическая</h4>
+                                        <p>Следует системным настройкам</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Локализация</h3>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="language">
+                                    <i class="fas fa-globe"></i>
+                                    Язык интерфейса
+                                </label>
+                                <select id="language" class="form-select">
+                                    <option value="ru" selected>Русский</option>
+                                    <option value="en">English</option>
+                                    <option value="ky">Кыргызча</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="timezone">
+                                    <i class="fas fa-clock"></i>
+                                    Часовой пояс
+                                </label>
+                                <select id="timezone" class="form-select">
+                                    <option value="Asia/Bishkek" selected>Бишкек (UTC+6)</option>
+                                    <option value="Asia/Almaty">Алматы (UTC+6)</option>
+                                    <option value="Europe/Moscow">Москва (UTC+3)</option>
+                                    <option value="UTC">UTC (UTC+0)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="dateFormat">
+                                    <i class="fas fa-calendar"></i>
+                                    Формат даты
+                                </label>
+                                <select id="dateFormat" class="form-select">
+                                    <option value="DD.MM.YYYY" selected>31.12.2025</option>
+                                    <option value="MM/DD/YYYY">12/31/2025</option>
+                                    <option value="YYYY-MM-DD">2025-12-31</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="timeFormat">
+                                    <i class="fas fa-clock"></i>
+                                    Формат времени
+                                </label>
+                                <select id="timeFormat" class="form-select">
+                                    <option value="24" selected>24-часовой (23:59)</option>
+                                    <option value="12">12-часовой (11:59 PM)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка "Уведомления" -->
+                <div class="settings-panel" id="notifications-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-bell"></i>
+                            Уведомления
+                        </h2>
+                        <p>Управление типами и способами доставки уведомлений</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Email уведомления</h3>
+                        </div>
+                        
+                        <div class="notification-settings">
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Еженедельные отчеты</h4>
+                                    <p>Получать сводку рабочего времени каждую неделю</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="weeklyReports" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Напоминания о табеле</h4>
+                                    <p>Уведомления о необходимости заполнить табель</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="timesheetReminders" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Уведомления о зарплате</h4>
+                                    <p>Информация о начислениях и выплатах</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="payrollNotifications" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Push уведомления</h3>
+                        </div>
+                        
+                        <div class="notification-settings">
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Напоминания о начале работы</h4>
+                                    <p>Уведомление о времени начала рабочего дня</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="workStartReminders">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Напоминания о перерыве</h4>
+                                    <p>Уведомления о рекомендуемых перерывах</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="breakReminders" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Дедлайны проектов</h4>
+                                    <p>Уведомления о приближающихся дедлайнах</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="deadlineNotifications" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка "Рабочие настройки" -->
+                <div class="settings-panel" id="work-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-briefcase"></i>
+                            Рабочие настройки
+                        </h2>
+                        <p>Конфигурация рабочего расписания и предпочтений</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Рабочее расписание</h3>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="workStart">
+                                    <i class="fas fa-clock"></i>
+                                    Начало рабочего дня
+                                </label>
+                                <input type="time" id="workStart" class="form-input" value="09:00">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="workEnd">
+                                    <i class="fas fa-clock"></i>
+                                    Конец рабочего дня
+                                </label>
+                                <input type="time" id="workEnd" class="form-input" value="18:00">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="lunchDuration">
+                                    <i class="fas fa-utensils"></i>
+                                    Длительность обеда (минуты)
+                                </label>
+                                <input type="number" id="lunchDuration" class="form-input" value="60" min="30" max="120" step="15">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="workDays">
+                                    <i class="fas fa-calendar-week"></i>
+                                    Рабочих дней в неделю
+                                </label>
+                                <input type="number" id="workDays" class="form-input" value="5" min="1" max="7" readonly>
+                            </div>
+                        </div>
+
+                        <div class="work-days-selector">
+                            <label class="form-label">Рабочие дни недели</label>
+                            <div class="days-grid">
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="monday" checked>
+                                    <span class="day-label">Пн</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="tuesday" checked>
+                                    <span class="day-label">Вт</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="wednesday" checked>
+                                    <span class="day-label">Ср</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="thursday" checked>
+                                    <span class="day-label">Чт</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="friday" checked>
+                                    <span class="day-label">Пт</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="saturday">
+                                    <span class="day-label">Сб</span>
+                                </label>
+                                <label class="day-checkbox">
+                                    <input type="checkbox" id="sunday">
+                                    <span class="day-label">Вс</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Автоматизация</h3>
+                        </div>
+                        
+                        <div class="automation-settings">
+                            <div class="automation-item">
+                                <div class="automation-info">
+                                    <h4>Автоматическая отметка прихода</h4>
+                                    <p>Отмечать приход при входе в систему в рабочее время</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoCheckIn" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="automation-item">
+                                <div class="automation-info">
+                                    <h4>Автоматическая отметка ухода</h4>
+                                    <p>Отмечать уход при выходе из системы</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoCheckOut">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="automation-item">
+                                <div class="automation-info">
+                                    <h4>Отслеживание активности</h4>
+                                    <p>Отслеживать активность для более точного учета времени</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="activityTracking">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка "Безопасность" -->
+                <div class="settings-panel" id="security-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-shield-alt"></i>
+                            Безопасность
+                        </h2>
+                        <p>Управление паролем и настройками безопасности аккаунта</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Изменение пароля</h3>
+                        </div>
+                        
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label class="form-label" for="currentPassword">
+                                    <i class="fas fa-lock"></i>
+                                    Текущий пароль
+                                </label>
+                                <div class="password-input">
+                                    <input type="password" id="currentPassword" class="form-input" placeholder="Введите текущий пароль">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('currentPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="newPassword">
+                                    <i class="fas fa-key"></i>
+                                    Новый пароль
+                                </label>
+                                <div class="password-input">
+                                    <input type="password" id="newPassword" class="form-input" placeholder="Введите новый пароль">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="confirmPassword">
+                                    <i class="fas fa-check"></i>
+                                    Подтвердите пароль
+                                </label>
+                                <div class="password-input">
+                                    <input type="password" id="confirmPassword" class="form-input" placeholder="Повторите новый пароль">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Изменить пароль
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Сессии и устройства</h3>
+                        </div>
+                        
+                        <div class="active-sessions">
+                            <div class="session-item current">
+                                <div class="session-icon">
+                                    <i class="fas fa-desktop"></i>
+                                </div>
+                                <div class="session-info">
+                                    <div class="session-device">Компьютер (Windows)</div>
+                                    <div class="session-details">
+                                        <span class="session-location">Бишкек, Кыргызстан</span>
+                                        <span class="session-time">Активна сейчас</span>
+                                    </div>
+                                </div>
+                                <div class="session-status">
+                                    <span class="status-badge current">Текущая</span>
+                                </div>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="session-info">
+                                    <div class="session-device">Мобильное устройство (Android)</div>
+                                    <div class="session-details">
+                                        <span class="session-location">Бишкек, Кыргызстан</span>
+                                        <span class="session-time">2 часа назад</span>
+                                    </div>
+                                </div>
+                                <div class="session-actions">
+                                    <button class="btn btn-sm btn-error">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        Завершить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-error btn-outline" id="terminateAllSessions">
+                            <i class="fas fa-power-off"></i>
+                            Завершить все сессии
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Вкладка "Интеграции" -->
+                <div class="settings-panel" id="integrations-panel">
+                    <div class="panel-header">
+                        <h2>
+                            <i class="fas fa-plug"></i>
+                            Интеграции
+                        </h2>
+                        <p>Подключение внешних сервисов и приложений</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>Доступные интеграции</h3>
+                        </div>
+                        
+                        <div class="integrations-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fab fa-google"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Google Calendar</h4>
+                                    <p>Синхронизация событий и встреч</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge connected">Подключено</span>
+                                    <button class="btn btn-sm btn-secondary">Настроить</button>
+                                </div>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fab fa-slack"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Slack</h4>
+                                    <p>Уведомления в корпоративном чате</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge disconnected">Не подключено</span>
+                                    <button class="btn btn-sm btn-primary">Подключить</button>
+                                </div>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fab fa-microsoft"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Microsoft Teams</h4>
+                                    <p>Интеграция с Microsoft 365</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge disconnected">Не подключено</span>
+                                    <button class="btn btn-sm btn-primary">Подключить</button>
+                                </div>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>GitHub</h4>
+                                    <p>Отслеживание активности в репозиториях</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge disconnected">Не подключено</span>
+                                    <button class="btn btn-sm btn-primary">Подключить</button>
+                                </div>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Email SMTP</h4>
+                                    <p>Настройка отправки email уведомлений</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge connected">Подключено</span>
+                                    <button class="btn btn-sm btn-secondary">Настроить</button>
+                                </div>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>API Access</h4>
+                                    <p>Доступ к REST API для интеграций</p>
+                                </div>
+                                <div class="integration-status">
+                                    <span class="status-badge connected">Активен</span>
+                                    <button class="btn btn-sm btn-secondary">Управление</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-title">
+                            <h3>API ключи</h3>
+                        </div>
+                        
+                        <div class="api-keys-section">
+                            <div class="api-key-item">
+                                <div class="api-key-info">
+                                    <h4>Персональный API ключ</h4>
+                                    <p>Для доступа к данным через REST API</p>
+                                    <code class="api-key-value">ttk_live_••••••••••••••••••••••••••••••••••••••••••••••••••••</code>
+                                </div>
+                                <div class="api-key-actions">
+                                    <button class="btn btn-sm btn-secondary" id="showApiKey">
+                                        <i class="fas fa-eye"></i>
+                                        Показать
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" id="regenerateApiKey">
+                                        <i class="fas fa-sync"></i>
+                                        Обновить
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="api-usage-stats">
+                                <h4>Использование API за последние 30 дней</h4>
+                                <div class="usage-grid">
+                                    <div class="usage-item">
+                                        <div class="usage-label">Всего запросов</div>
+                                        <div class="usage-value">1,247</div>
+                                    </div>
+                                    <div class="usage-item">
+                                        <div class="usage-label">Лимит в месяц</div>
+                                        <div class="usage-value">10,000</div>
+                                    </div>
+                                    <div class="usage-item">
+                                        <div class="usage-label">Использовано</div>
+                                        <div class="usage-value">12.5%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно подтверждения -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="confirmTitle">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Подтверждение действия
+                </h3>
+                <button class="modal-close" onclick="closeModal('confirmModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">Вы уверены, что хотите выполнить это действие?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="confirmCancel">Отмена</button>
+                <button type="button" class="btn btn-primary" id="confirmAction">Подтвердить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div class="notifications-container" id="notificationsContainer"></div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/settings.js"></script>
+    <script>
+        // Функция для закрытия модальных окон
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                modal.classList.remove('show');
+            }
+        }
+
+        // Функция получения текущего пользователя
+        function getCurrentUser() {
+            const userData = localStorage.getItem('currentUser');
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Функция обновления информации о пользователе
+        function updateUserInfo(user) {
+            const userName = document.querySelector('.user-name');
+            const userAvatar = document.querySelector('.user-avatar');
+            
+            if (userName && user.personalInfo) {
+                userName.textContent = `${user.personalInfo.firstName} ${user.personalInfo.lastName}`;
+            } else if (userName && user.name) {
+                userName.textContent = user.name;
+            }
+            
+            if (userAvatar && user.avatar) {
+                userAvatar.src = user.avatar;
+            }
+        }
+
+        // Инициализация настроек
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверяем авторизацию
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Инициализируем настройки
+            if (typeof initializeSettings === 'function') {
+                initializeSettings();
+            } else {
+                console.warn('Функция initializeSettings не найдена. Убедитесь, что файл settings.js подключен.');
+            }
+            
+            // Обновляем информацию о пользователе в навигации
+            updateUserInfo(currentUser);
+
+            // Обработчик клика по модальным окнам для закрытия
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    closeModal(e.target.id);
+                }
+            });
+
+            // Закрытие модальных окон по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const openModals = document.querySelectorAll('.modal[style*="block"], .modal.show');
+                    openModals.forEach(modal => {
+                        closeModal(modal.id);
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="server/routes/timesheet.js"></script>
+</body>
+</html>

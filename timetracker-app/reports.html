@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчеты и аналитика - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/reports.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link active"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="admin-panel.html"><i class="fas fa-cog"></i> Админ-панель</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Отчеты и аналитика</h1>
+                        <p class="page-subtitle">Детальная аналитика рабочего времени и производительности</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="exportAllReports()">
+                            <i class="fas fa-download"></i>
+                            Экспорт отчетов
+                        </button>
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            <i class="fas fa-chart-line"></i>
+                            Сформировать отчет
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Фильтры отчетов -->
+            <section class="report-filters">
+                <div class="filters-card">
+                    <div class="filters-header">
+                        <h3>Параметры отчета</h3>
+                        <button class="btn btn-outline btn-sm" onclick="resetFilters()">
+                            <i class="fas fa-undo"></i>
+                            Сбросить
+                        </button>
+                    </div>
+                    
+                    <div class="filters-content">
+                        <div class="filter-group">
+                            <label class="form-label">Период</label>
+                            <div class="period-selector">
+                                <select id="reportPeriod" class="form-select" onchange="updateReports()">
+                                    <option value="week">Неделя</option>
+                                    <option value="month" selected>Месяц</option>
+                                    <option value="quarter">Квартал</option>
+                                    <option value="year">Год</option>
+                                    <option value="custom">Произвольный</option>
+                                </select>
+                                <div class="date-range hidden" id="customDateRange">
+                                    <input type="date" id="startDate" class="form-input">
+                                    <span>—</span>
+                                    <input type="date" id="endDate" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="form-label">Тип отчета</label>
+                            <div class="report-types">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="timeReport" checked>
+                                    <span class="checkbox-custom"></span>
+                                    Рабочее время
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="productivityReport" checked>
+                                    <span class="checkbox-custom"></span>
+                                    Производительность
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="attendanceReport" checked>
+                                    <span class="checkbox-custom"></span>
+                                    Посещаемость
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="salaryReport">
+                                    <span class="checkbox-custom"></span>
+                                    Заработная плата
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="form-label">Группировка</label>
+                            <select id="groupBy" class="form-select" onchange="updateReports()">
+                                <option value="day">По дням</option>
+                                <option value="week" selected>По неделям</option>
+                                <option value="month">По месяцам</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="form-label">Сравнение</label>
+                            <select id="comparison" class="form-select" onchange="updateReports()">
+                                <option value="none">Без сравнения</option>
+                                <option value="previous" selected>С предыдущим периодом</option>
+                                <option value="year">С прошлым годом</option>
+                                <option value="average">Со средними значениями</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Основные метрики -->
+            <section class="key-metrics">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h4>Общее время</h4>
+                            <div class="metric-value" id="totalHours">176ч 30м</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+5.2% к прошлому месяцу</span>
+                            </div>
+                        </div>
+                        <div class="metric-chart">
+                            <canvas id="totalHoursChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h4>Производительность</h4>
+                            <div class="metric-value" id="productivity">92%</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+2.1% к плану</span>
+                            </div>
+                        </div>
+                        <div class="metric-chart">
+                            <canvas id="productivityChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h4>Посещаемость</h4>
+                            <div class="metric-value" id="attendance">95.5%</div>
+                            <div class="metric-change neutral">
+                                <i class="fas fa-minus"></i>
+                                <span>Норма: 95%</span>
+                            </div>
+                        </div>
+                        <div class="metric-chart">
+                            <canvas id="attendanceChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h4>Рейтинг</h4>
+                            <div class="metric-value" id="rating">4.8</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+0.3 к прошлому месяцу</span>
+                            </div>
+                        </div>
+                        <div class="metric-chart">
+                            <canvas id="ratingChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Графики и диаграммы -->
+            <div class="reports-layout">
+                <!-- Левая колонка -->
+                <div class="reports-main">
+                    <!-- График рабочего времени -->
+                    <section class="chart-section">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Динамика рабочего времени</h3>
+                                <div class="chart-controls">
+                                    <button class="chart-btn active" data-period="week">7д</button>
+                                    <button class="chart-btn" data-period="month">30д</button>
+                                    <button class="chart-btn" data-period="quarter">90д</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="workTimeChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- График производительности -->
+                    <section class="chart-section">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Анализ производительности</h3>
+                                <div class="chart-legend">
+                                    <span class="legend-item">
+                                        <span class="legend-color" style="background: #2563eb;"></span>
+                                        Фактическое время
+                                    </span>
+                                    <span class="legend-item">
+                                        <span class="legend-color" style="background: #10b981;"></span>
+                                        Плановое время
+                                    </span>
+                                    <span class="legend-item">
+                                        <span class="legend-color" style="background: #f59e0b;"></span>
+                                        Переработки
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="productivityChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Распределение времени -->
+                    <section class="chart-section">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Распределение рабочего времени</h3>
+                                <select class="form-select chart-filter" onchange="updateTimeDistribution()">
+                                    <option value="week">Эта неделя</option>
+                                    <option value="month" selected>Этот месяц</option>
+                                    <option value="quarter">Этот квартал</option>
+                                </select>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="timeDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Правая колонка -->
+                <div class="reports-sidebar">
+                    <!-- Топ показатели -->
+                    <section class="top-stats">
+                        <div class="stats-card">
+                            <div class="stats-header">
+                                <h3>Лучшие показатели</h3>
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stats-list">
+                                <div class="stat-item">
+                                    <div class="stat-icon best">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-title">Самый продуктивный день</div>
+                                        <div class="stat-value">15 мая, 2025</div>
+                                        <div class="stat-desc">9ч 45м отработано</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-item">
+                                    <div class="stat-icon good">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-title">Текущая серия</div>
+                                        <div class="stat-value">12 дней</div>
+                                        <div class="stat-desc">Без опозданий</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-item">
+                                    <div class="stat-icon average">
+                                        <i class="fas fa-target"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-title">Выполнение плана</div>
+                                        <div class="stat-value">108%</div>
+                                        <div class="stat-desc">За текущий месяц</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Календарь активности -->
+                    <section class="activity-calendar">
+                        <div class="calendar-card">
+                            <div class="calendar-header">
+                                <h3>Календарь активности</h3>
+                                <div class="calendar-nav">
+                                    <button class="btn btn-outline btn-sm" onclick="changeCalendarMonth(-1)">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <span id="calendarMonth">Май 2025</span>
+                                    <button class="btn btn-outline btn-sm" onclick="changeCalendarMonth(1)">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="calendar-grid" id="activityCalendar">
+                                <!-- Календарь будет генерироваться JS -->
+                            </div>
+                            <div class="calendar-legend">
+                                <span class="legend-title">Интенсивность:</span>
+                                <div class="intensity-scale">
+                                    <span class="intensity-level" data-level="0"></span>
+                                    <span class="intensity-level" data-level="1"></span>
+                                    <span class="intensity-level" data-level="2"></span>
+                                    <span class="intensity-level" data-level="3"></span>
+                                    <span class="intensity-level" data-level="4"></span>
+                                </div>
+                                <span class="legend-label">Больше</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Цели и достижения -->
+                    <section class="goals-achievements">
+                        <div class="goals-card">
+                            <div class="goals-header">
+                                <h3>Цели месяца</h3>
+                                <button class="btn btn-outline btn-sm" onclick="showGoalsModal()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="goals-list">
+                                <div class="goal-item">
+                                    <div class="goal-icon completed">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="goal-content">
+                                        <div class="goal-title">Отработать 160 часов</div>
+                                        <div class="goal-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 100%"></div>
+                                            </div>
+                                            <span class="progress-text">160/160ч</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="goal-item">
+                                    <div class="goal-icon in-progress">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="goal-content">
+                                        <div class="goal-title">Без опозданий</div>
+                                        <div class="goal-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-warning" style="width: 85%"></div>
+                                            </div>
+                                            <span class="progress-text">19/22 дня</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="goal-item">
+                                    <div class="goal-icon pending">
+                                        <i class="fas fa-target"></i>
+                                    </div>
+                                    <div class="goal-content">
+                                        <div class="goal-title">Повысить эффективность</div>
+                                        <div class="goal-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-error" style="width: 65%"></div>
+                                            </div>
+                                            <span class="progress-text">65/100%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Детальные отчеты -->
+            <section class="detailed-reports">
+                <div class="section-header">
+                    <h2>Детальные отчеты</h2>
+                    <div class="report-tabs">
+                        <button class="tab-btn active" data-tab="summary" onclick="switchReportTab('summary')">
+                            Сводка
+                        </button>
+                        <button class="tab-btn" data-tab="time" onclick="switchReportTab('time')">
+                            Время
+                        </button>
+                        <button class="tab-btn" data-tab="attendance" onclick="switchReportTab('attendance')">
+                            Посещаемость
+                        </button>
+                        <button class="tab-btn" data-tab="performance" onclick="switchReportTab('performance')">
+                            Результативность
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Вкладка Сводка -->
+                <div class="report-tab-content active" id="summaryTab">
+                    <div class="summary-grid">
+                        <div class="summary-section">
+                            <h4>Общие показатели</h4>
+                            <div class="summary-stats">
+                                <div class="summary-item">
+                                    <span class="summary-label">Рабочих дней:</span>
+                                    <span class="summary-value">22</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Отработано часов:</span>
+                                    <span class="summary-value">176ч 30м</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Средний день:</span>
+                                    <span class="summary-value">8ч 1м</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Переработки:</span>
+                                    <span class="summary-value">12ч 30м</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Опоздания:</span>
+                                    <span class="summary-value">3</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Эффективность:</span>
+                                    <span class="summary-value">92%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary-section">
+                            <h4>Сравнение с планом</h4>
+                            <div class="plan-comparison">
+                                <div class="comparison-item">
+                                    <div class="comparison-label">Рабочие часы</div>
+                                    <div class="comparison-bar">
+                                        <div class="bar-background">
+                                            <div class="bar-fill" style="width: 110%"></div>
+                                        </div>
+                                        <span class="comparison-value">110%</span>
+                                    </div>
+                                </div>
+                                <div class="comparison-item">
+                                    <div class="comparison-label">Посещаемость</div>
+                                    <div class="comparison-bar">
+                                        <div class="bar-background">
+                                            <div class="bar-fill" style="width: 95%"></div>
+                                        </div>
+                                        <span class="comparison-value">95%</span>
+                                    </div>
+                                </div>
+                                <div class="comparison-item">
+                                    <div class="comparison-label">Производительность</div>
+                                    <div class="comparison-bar">
+                                        <div class="bar-background">
+                                            <div class="bar-fill" style="width: 92%"></div>
+                                        </div>
+                                        <span class="comparison-value">92%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка Время -->
+                <div class="report-tab-content" id="timeTab">
+                    <div class="time-analysis">
+                        <div class="time-breakdown">
+                            <h4>Структура рабочего времени</h4>
+                            <div class="breakdown-chart">
+                                <canvas id="timeBreakdownChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="time-trends">
+                            <h4>Тренды по времени</h4>
+                            <div class="trends-list">
+                                <div class="trend-item positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Среднее время работы увеличилось на 15 минут</span>
+                                </div>
+                                <div class="trend-item negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Количество опозданий снизилось на 2</span>
+                                </div>
+                                <div class="trend-item neutral">
+                                    <i class="fas fa-minus"></i>
+                                    <span>Переработки остались на том же уровне</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка Посещаемость -->
+                <div class="report-tab-content" id="attendanceTab">
+                    <div class="attendance-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>День недели</th>
+                                    <th>Время прихода</th>
+                                    <th>Время ухода</th>
+                                    <th>Опоздание</th>
+                                    <th>Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <!-- Данные будут загружаться через JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Вкладка Результативность -->
+                <div class="report-tab-content" id="performanceTab">
+                    <div class="performance-metrics">
+                        <div class="metrics-overview">
+                            <h4>Ключевые показатели эффективности</h4>
+                            <div class="kpi-grid">
+                                <div class="kpi-card">
+                                    <div class="kpi-value">98.5%</div>
+                                    <div class="kpi-label">Выполнение задач</div>
+                                    <div class="kpi-trend positive">+2.3%</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">4.2</div>
+                                    <div class="kpi-label">Средняя оценка</div>
+                                    <div class="kpi-trend positive">+0.1</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">15</div>
+                                    <div class="kpi-label">Проектов завершено</div>
+                                    <div class="kpi-trend positive">+3</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-value">1.2ч</div>
+                                    <div class="kpi-label">Среднее время задачи</div>
+                                    <div class="kpi-trend negative">-0.3ч</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно целей -->
+    <div id="goalsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить цель</h3>
+                <span class="modal-close" onclick="closeModal('goalsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="goalForm">
+                    <div class="form-group">
+                        <label class="form-label" for="goalTitle">Название цели</label>
+                        <input type="text" id="goalTitle" class="form-input" 
+                               placeholder="Например: Отработать 160 часов" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="goalTarget">Целевое значение</label>
+                        <input type="number" id="goalTarget" class="form-input" 
+                               placeholder="160" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="goalUnit">Единица измерения</label>
+                        <select id="goalUnit" class="form-select" required>
+                            <option value="hours">Часы</option>
+                            <option value="days">Дни</option>
+                            <option value="percent">Проценты</option>
+                            <option value="count">Количество</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="goalDeadline">Срок выполнения</label>
+                        <input type="date" id="goalDeadline" class="form-input" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('goalsModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveGoal()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

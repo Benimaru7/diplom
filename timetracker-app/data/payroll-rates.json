@@ -1,0 +1,367 @@
+{
+  "payrollSettings": {
+    "company": {
+      "name": "ООО ТехИнновации",
+      "taxId": "12345678901234",
+      "address": "г. Бишкек, ул. Киевская, 123",
+      "payrollPeriod": "monthly",
+      "currency": "KGS"
+    },
+    "workingDays": {
+      "standardWorkingHours": 8,
+      "standardWorkingDays": 22,
+      "overtimeMultiplier": 1.5,
+      "weekendMultiplier": 2.0,
+      "holidayMultiplier": 2.5
+    },
+    "taxes": {
+      "socialTax": {
+        "rate": 0.10,
+        "description": "Социальный налог"
+      },
+      "incomeTax": {
+        "rate": 0.10,
+        "description": "Подоходный налог"
+      },
+      "pensionContribution": {
+        "rate": 0.02,
+        "description": "Пенсионные взносы"
+      }
+    },
+    "allowances": {
+      "transportAllowance": 5000,
+      "mealAllowance": 3000,
+      "communicationAllowance": 2000
+    }
+  },
+  "payrollCalculations": [
+    {
+      "employeeId": 1,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 80000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 12,
+        "weekend": 0,
+        "holiday": 0,
+        "totalWorked": 188,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 80000,
+        "overtimePay": 9000,
+        "bonuses": {
+          "performance": 5000,
+          "project": 0
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 104000
+      },
+      "deductions": {
+        "socialTax": 10400,
+        "incomeTax": 10400,
+        "pensionContribution": 2080,
+        "totalDeductions": 22880
+      },
+      "netSalary": 81120,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    },
+    {
+      "employeeId": 2,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 75000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 8,
+        "weekend": 0,
+        "holiday": 0,
+        "totalWorked": 184,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 75000,
+        "overtimePay": 5616,
+        "bonuses": {
+          "performance": 3000,
+          "project": 8000
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 101616
+      },
+      "deductions": {
+        "socialTax": 10162,
+        "incomeTax": 10162,
+        "pensionContribution": 2032,
+        "totalDeductions": 22356
+      },
+      "netSalary": 79260,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    },
+    {
+      "employeeId": 3,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 150000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 20,
+        "weekend": 8,
+        "holiday": 0,
+        "totalWorked": 204,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 150000,
+        "overtimePay": 28110,
+        "weekendPay": 14976,
+        "bonuses": {
+          "performance": 10000,
+          "project": 15000
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 228086
+      },
+      "deductions": {
+        "socialTax": 22809,
+        "incomeTax": 22809,
+        "pensionContribution": 4562,
+        "totalDeductions": 50180
+      },
+      "netSalary": 177906,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    },
+    {
+      "employeeId": 4,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 65000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 4,
+        "weekend": 0,
+        "holiday": 0,
+        "totalWorked": 180,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 65000,
+        "overtimePay": 2436,
+        "bonuses": {
+          "performance": 4000,
+          "project": 0
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 81436
+      },
+      "deductions": {
+        "socialTax": 8144,
+        "incomeTax": 8144,
+        "pensionContribution": 1629,
+        "totalDeductions": 17917
+      },
+      "netSalary": 63519,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    },
+    {
+      "employeeId": 5,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 70000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 16,
+        "weekend": 0,
+        "holiday": 0,
+        "totalWorked": 192,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 70000,
+        "overtimePay": 10488,
+        "bonuses": {
+          "performance": 8000,
+          "project": 12000
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 110488
+      },
+      "deductions": {
+        "socialTax": 11049,
+        "incomeTax": 11049,
+        "pensionContribution": 2210,
+        "totalDeductions": 24308
+      },
+      "netSalary": 86180,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    },
+    {
+      "employeeId": 6,
+      "period": {
+        "year": 2025,
+        "month": 5,
+        "startDate": "2025-05-01",
+        "endDate": "2025-05-31"
+      },
+      "baseSalary": 55000,
+      "workingHours": {
+        "regular": 176,
+        "overtime": 0,
+        "weekend": 0,
+        "holiday": 0,
+        "totalWorked": 176,
+        "scheduledHours": 176
+      },
+      "earnings": {
+        "baseSalary": 55000,
+        "overtimePay": 0,
+        "bonuses": {
+          "performance": 2000,
+          "project": 5000
+        },
+        "allowances": {
+          "transport": 5000,
+          "meal": 3000,
+          "communication": 2000
+        },
+        "grossTotal": 72000
+      },
+      "deductions": {
+        "socialTax": 7200,
+        "incomeTax": 7200,
+        "pensionContribution": 1440,
+        "totalDeductions": 15840
+      },
+      "netSalary": 56160,
+      "calculatedAt": "2025-05-31T23:59:59Z",
+      "status": "calculated"
+    }
+  ],
+  "payrollSummary": {
+    "period": {
+      "year": 2025,
+      "month": 5
+    },
+    "totals": {
+      "employeeCount": 6,
+      "totalGrossSalary": 697626,
+      "totalNetSalary": 544145,
+      "totalDeductions": 153481,
+      "totalBonuses": 57000,
+      "totalAllowances": 60000,
+      "totalOvertimePay": 55650
+    },
+    "departmentBreakdown": [
+      {
+        "department": "IT отдел",
+        "employeeCount": 2,
+        "totalGross": 332086,
+        "totalNet": 259026,
+        "avgSalary": 129513
+      },
+      {
+        "department": "Дизайн",
+        "employeeCount": 1,
+        "totalGross": 101616,
+        "totalNet": 79260,
+        "avgSalary": 79260
+      },
+      {
+        "department": "HR отдел",
+        "employeeCount": 1,
+        "totalGross": 81436,
+        "totalNet": 63519,
+        "avgSalary": 63519
+      },
+      {
+        "department": "Продажи",
+        "employeeCount": 1,
+        "totalGross": 110488,
+        "totalNet": 86180,
+        "avgSalary": 86180
+      },
+      {
+        "department": "Маркетинг",
+        "employeeCount": 1,
+        "totalGross": 72000,
+        "totalNet": 56160,
+        "avgSalary": 56160
+      }
+    ]
+  },
+  "paymentHistory": [
+    {
+      "id": 1,
+      "period": "2025-05",
+      "totalAmount": 544145,
+      "paymentDate": "2025-06-01",
+      "status": "paid",
+      "method": "bank_transfer",
+      "reference": "PAY-2025-05-001"
+    },
+    {
+      "id": 2,
+      "period": "2025-04",
+      "totalAmount": 532890,
+      "paymentDate": "2025-05-01",
+      "status": "paid",
+      "method": "bank_transfer",
+      "reference": "PAY-2025-04-001"
+    },
+    {
+      "id": 3,
+      "period": "2025-03",
+      "totalAmount": 518750,
+      "paymentDate": "2025-04-01",
+      "status": "paid",
+      "method": "bank_transfer",
+      "reference": "PAY-2025-03-001"
+    }
+  ]
+}

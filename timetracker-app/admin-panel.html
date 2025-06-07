@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Административная панель - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+                <span class="admin-badge">Admin</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="timesheet.html" class="nav-link"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+                <a href="admin-panel.html" class="nav-link active"><i class="fas fa-cog"></i> Админ</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/admin.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Администратор</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Административная панель</h1>
+                        <p class="page-subtitle">Управление системой учета рабочего времени</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="exportSystemData()">
+                            <i class="fas fa-download"></i>
+                            Экспорт данных
+                        </button>
+                        <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                            <i class="fas fa-user-plus"></i>
+                            Добавить сотрудника
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Системная статистика -->
+            <section class="system-overview">
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <div class="card-icon employees">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Всего сотрудников</h3>
+                            <div class="card-value" id="totalEmployees">24</div>
+                            <div class="card-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +2 за месяц
+                            </div>
+                        </div>
+                        <div class="card-chart">
+                            <canvas id="employeesChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="card-icon departments">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Отделы</h3>
+                            <div class="card-value" id="totalDepartments">5</div>
+                            <div class="card-change neutral">
+                                <i class="fas fa-minus"></i>
+                                Без изменений
+                            </div>
+                        </div>
+                        <div class="card-chart">
+                            <canvas id="departmentsChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="card-icon active">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Активных сегодня</h3>
+                            <div class="card-value" id="activeToday">18</div>
+                            <div class="card-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                75% присутствия
+                            </div>
+                        </div>
+                        <div class="card-chart">
+                            <canvas id="activeChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="card-icon payroll">
+                            <i class="fas fa-ruble-sign"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Фонд зарплаты</h3>
+                            <div class="card-value" id="totalPayroll">1.2M₽</div>
+                            <div class="card-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +5% к прошлому месяцу
+                            </div>
+                        </div>
+                        <div class="card-chart">
+                            <canvas id="payrollChart" width="60" height="40"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Навигация по разделам -->
+            <section class="admin-navigation">
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="employees" onclick="switchAdminTab('employees')">
+                        <i class="fas fa-users"></i>
+                        Сотрудники
+                    </button>
+                    <button class="admin-tab" data-tab="departments" onclick="switchAdminTab('departments')">
+                        <i class="fas fa-building"></i>
+                        Отделы
+                    </button>
+                    <button class="admin-tab" data-tab="settings" onclick="switchAdminTab('settings')">
+                        <i class="fas fa-cog"></i>
+                        Настройки
+                    </button>
+                    <button class="admin-tab" data-tab="reports" onclick="switchAdminTab('reports')">
+                        <i class="fas fa-chart-line"></i>
+                        Корп. отчеты
+                    </button>
+                    <button class="admin-tab" data-tab="notifications" onclick="switchAdminTab('notifications')">
+                        <i class="fas fa-bell"></i>
+                        Уведомления
+                    </button>
+                    <button class="admin-tab" data-tab="security" onclick="switchAdminTab('security')">
+                        <i class="fas fa-shield-alt"></i>
+                        Безопасность
+                    </button>
+                </div>
+            </section>
+
+            <!-- Вкладка: Управление сотрудниками -->
+            <section class="admin-content active" id="employeesContent">
+                <div class="content-header">
+                    <h2>Управление сотрудниками</h2>
+                    <div class="content-actions">
+                        <div class="search-filter">
+                            <input type="text" class="form-input" placeholder="Поиск сотрудников..." id="employeeSearch">
+                            <select class="form-select" id="departmentFilter" onchange="filterEmployees()">
+                                <option value="">Все отделы</option>
+                                <option value="IT">IT отдел</option>
+                                <option value="HR">HR отдел</option>
+                                <option value="Sales">Продажи</option>
+                                <option value="Marketing">Маркетинг</option>
+                                <option value="Finance">Финансы</option>
+                            </select>
+                            <select class="form-select" id="statusFilter" onchange="filterEmployees()">
+                                <option value="">Все статусы</option>
+                                <option value="active">Активные</option>
+                                <option value="inactive">Неактивные</option>
+                                <option value="vacation">В отпуске</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="employees-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAllEmployees" onchange="toggleSelectAllEmployees()">
+                                </th>
+                                <th onclick="sortEmployees('name')">
+                                    Сотрудник <i class="fas fa-sort"></i>
+                                </th>
+                                <th onclick="sortEmployees('department')">
+                                    Отдел <i class="fas fa-sort"></i>
+                                </th>
+                                <th onclick="sortEmployees('position')">
+                                    Должность <i class="fas fa-sort"></i>
+                                </th>
+                                <th onclick="sortEmployees('salary')">
+                                    Зарплата <i class="fas fa-sort"></i>
+                                </th>
+                                <th onclick="sortEmployees('status')">
+                                    Статус <i class="fas fa-sort"></i>
+                                </th>
+                                <th onclick="sortEmployees('lastActive')">
+                                    Последняя активность <i class="fas fa-sort"></i>
+                                </th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody">
+                            <!-- Данные будут загружаться через JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bulk-actions hidden" id="employeeBulkActions">
+                    <div class="bulk-actions-content">
+                        <span class="bulk-text">Выбрано: <span id="selectedCount">0</span> сотрудников</span>
+                        <div class="bulk-buttons">
+                            <button class="btn btn-outline btn-sm" onclick="bulkActivateEmployees()">
+                                <i class="fas fa-user-check"></i> Активировать
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="bulkDeactivateEmployees()">
+                                <i class="fas fa-user-times"></i> Деактивировать
+                            </button>
+                            <button class="btn btn-error btn-sm" onclick="bulkDeleteEmployees()">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка: Управление отделами -->
+            <section class="admin-content" id="departmentsContent">
+                <div class="content-header">
+                    <h2>Управление отделами</h2>
+                    <div class="content-actions">
+                        <button class="btn btn-primary" onclick="showAddDepartmentModal()">
+                            <i class="fas fa-plus"></i>
+                            Добавить отдел
+                        </button>
+                    </div>
+                </div>
+
+                <div class="departments-grid">
+                    <div class="department-card">
+                        <div class="department-header">
+                            <div class="department-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="department-info">
+                                <h3>IT отдел</h3>
+                                <p>Разработка и поддержка</p>
+                            </div>
+                            <div class="department-actions">
+                                <button class="btn btn-outline btn-sm" onclick="editDepartment('it')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="department-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Сотрудников:</span>
+                                <span class="stat-value">8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Активных:</span>
+                                <span class="stat-value">7</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Средняя зарплата:</span>
+                                <span class="stat-value">85,000₽</span>
+                            </div>
+                        </div>
+                        <div class="department-progress">
+                            <div class="progress-label">Посещаемость: 87.5%</div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 87.5%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header">
+                            <div class="department-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="department-info">
+                                <h3>HR отдел</h3>
+                                <p>Управление персоналом</p>
+                            </div>
+                            <div class="department-actions">
+                                <button class="btn btn-outline btn-sm" onclick="editDepartment('hr')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="department-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Сотрудников:</span>
+                                <span class="stat-value">4</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Активных:</span>
+                                <span class="stat-value">4</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Средняя зарплата:</span>
+                                <span class="stat-value">70,000₽</span>
+                            </div>
+                        </div>
+                        <div class="department-progress">
+                            <div class="progress-label">Посещаемость: 95%</div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header">
+                            <div class="department-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="department-info">
+                                <h3>Продажи</h3>
+                                <p>Отдел продаж</p>
+                            </div>
+                            <div class="department-actions">
+                                <button class="btn btn-outline btn-sm" onclick="editDepartment('sales')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="department-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Сотрудников:</span>
+                                <span class="stat-value">6</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Активных:</span>
+                                <span class="stat-value">5</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Средняя зарплата:</span>
+                                <span class="stat-value">75,000₽</span>
+                            </div>
+                        </div>
+                        <div class="department-progress">
+                            <div class="progress-label">Посещаемость: 83%</div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-warning" style="width: 83%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Карточка добавления нового отдела -->
+                    <div class="department-card add-department" onclick="showAddDepartmentModal()">
+                        <div class="add-content">
+                            <i class="fas fa-plus"></i>
+                            <span>Добавить отдел</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка: Настройки системы -->
+            <section class="admin-content" id="settingsContent">
+                <div class="content-header">
+                    <h2>Настройки системы</h2>
+                </div>
+
+                <div class="settings-layout">
+                    <!-- Общие настройки -->
+                    <div class="settings-section">
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3>Общие настройки</h3>
+                                <p>Основные параметры системы</p>
+                            </div>
+                            <div class="settings-content">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="companyName">Название компании</label>
+                                        <small>Отображается в отчетах и документах</small>
+                                    </div>
+                                    <input type="text" id="companyName" class="form-input" value="ООО ТехИнновации">
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="workingHours">Стандартный рабочий день (часы)</label>
+                                        <small>Количество часов в рабочем дне</small>
+                                    </div>
+                                    <input type="number" id="workingHours" class="form-input" value="8" min="1" max="12">
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="workStart">Начало рабочего дня</label>
+                                        <small>Время начала рабочего дня</small>
+                                    </div>
+                                    <input type="time" id="workStart" class="form-input" value="09:00">
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="timezone">Часовой пояс</label>
+                                        <small>Временная зона для расчетов</small>
+                                    </div>
+                                    <select id="timezone" class="form-select">
+                                        <option value="Europe/Moscow" selected>Москва (UTC+3)</option>
+                                        <option value="Europe/Kiev">Киев (UTC+2)</option>
+                                        <option value="Asia/Yekaterinburg">Екатеринбург (UTC+5)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Настройки учета времени -->
+                    <div class="settings-section">
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3>Учет рабочего времени</h3>
+                                <p>Параметры отслеживания времени</p>
+                            </div>
+                            <div class="settings-content">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <span>Автоматическое определение опозданий</span>
+                                        <small>Отмечать опоздания автоматически</small>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="autoLateDetection" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="lateThreshold">Порог опоздания (минуты)</label>
+                                        <small>Через сколько минут считать опозданием</small>
+                                    </div>
+                                    <input type="number" id="lateThreshold" class="form-input" value="15" min="1" max="60">
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="overtimeRate">Коэффициент переработки</label>
+                                        <small>Множитель для оплаты переработок</small>
+                                    </div>
+                                    <input type="number" id="overtimeRate" class="form-input" value="1.5" min="1" max="3" step="0.1">
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <span>Обязательный учет перерывов</span>
+                                        <small>Требовать отметку времени перерывов</small>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="requiredBreaks">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Настройки уведомлений -->
+                    <div class="settings-section">
+                        <div class="settings-card">
+                            <div class="settings-header">
+                                <h3>Уведомления</h3>
+                                <p>Настройка отправки уведомлений</p>
+                            </div>
+                            <div class="settings-content">
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <span>Email уведомления</span>
+                                        <small>Отправлять уведомления на почту</small>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <span>Уведомления об опозданиях</span>
+                                        <small>Уведомлять HR об опозданиях</small>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="lateNotifications" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="setting-label">
+                                        <label for="reportEmail">Email для отчетов</label>
+                                        <small>Адрес для отправки еженедельных отчетов</small>
+                                    </div>
+                                    <input type="email" id="reportEmail" class="form-input" value="hr@company.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Сохранение настроек -->
+                    <div class="settings-actions">
+                        <button class="btn btn-outline" onclick="resetSettings()">
+                            <i class="fas fa-undo"></i>
+                            Сбросить
+                        </button>
+                        <button class="btn btn-primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i>
+                            Сохранить настройки
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Вкладка: Корпоративные отчеты -->
+            <section class="admin-content" id="reportsContent">
+                <div class="content-header">
+                    <h2>Корпоративные отчеты</h2>
+                    <div class="content-actions">
+                        <button class="btn btn-primary" onclick="generateCorporateReport()">
+                            <i class="fas fa-file-alt"></i>
+                            Сформировать отчет
+                        </button>
+                    </div>
+                </div>
+
+                <div class="corporate-reports">
+                    <!-- Сводный отчет -->
+                    <div class="report-dashboard">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <h3>Сводка за месяц</h3>
+                                <div class="dashboard-chart">
+                                    <canvas id="monthlyOverviewChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <h3>Посещаемость по отделам</h3>
+                                <div class="dashboard-chart">
+                                    <canvas id="departmentAttendanceChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <h3>Топ сотрудники</h3>
+                                <div class="top-employees">
+                                    <div class="employee-item">
+                                        <div class="employee-avatar">
+                                            <img src="assets/images/avatars/employee1.png" alt="Иван Петров">
+                                        </div>
+                                        <div class="employee-info">
+                                            <div class="employee-name">Иван Петров</div>
+                                            <div class="employee-metric">98% посещаемость</div>
+                                        </div>
+                                        <div class="employee-score">⭐ 4.9</div>
+                                    </div>
+
+                                    <div class="employee-item">
+                                        <div class="employee-avatar">
+                                            <img src="assets/images/avatars/employee2.png" alt="Мария Сидорова">
+                                        </div>
+                                        <div class="employee-info">
+                                            <div class="employee-name">Мария Сидорова</div>
+                                            <div class="employee-metric">176ч отработано</div>
+                                        </div>
+                                        <div class="employee-score">⭐ 4.8</div>
+                                    </div>
+
+                                    <div class="employee-item">
+                                        <div class="employee-avatar">
+                                            <img src="assets/images/avatars/employee3.png" alt="Алексей Козлов">
+                                        </div>
+                                        <div class="employee-info">
+                                            <div class="employee-name">Алексей Козлов</div>
+                                            <div class="employee-metric">12ч переработок</div>
+                                        </div>
+                                        <div class="employee-score">⭐ 4.7</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <h3>Динамика фонда зарплаты</h3>
+                                <div class="dashboard-chart">
+                                    <canvas id="payrollTrendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Остальные вкладки (уведомления, безопасность) -->
+            <section class="admin-content" id="notificationsContent">
+                <div class="content-header">
+                    <h2>Центр уведомлений</h2>
+                </div>
+                <div class="notifications-center">
+                    <p>Функциональность в разработке...</p>
+                </div>
+            </section>
+
+            <section class="admin-content" id="securityContent">
+                <div class="content-header">
+                    <h2>Безопасность и права доступа</h2>
+                </div>
+                <div class="security-center">
+                    <p>Функциональность в разработке...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальные окна -->
+    <!-- Добавление сотрудника -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить сотрудника</h3>
+                <span class="modal-close" onclick="closeModal('addEmployeeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addEmployeeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="employeeName">ФИО</label>
+                            <input type="text" id="employeeName" class="form-input" placeholder="Иванов Иван Иванович" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="employeeEmail">Email</label>
+                            <input type="email" id="employeeEmail" class="form-input" placeholder="ivan.ivanov@company.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="employeeDepartment">Отдел</label>
+                            <select id="employeeDepartment" class="form-select" required>
+                                <option value="">Выберите отдел</option>
+                                <option value="IT">IT отдел</option>
+                                <option value="HR">HR отдел</option>
+                                <option value="Sales">Продажи</option>
+                                <option value="Marketing">Маркетинг</option>
+                                <option value="Finance">Финансы</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="employeePosition">Должность</label>
+                            <input type="text" id="employeePosition" class="form-input" placeholder="Frontend Developer" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="employeeSalary">Оклад</label>
+                            <input type="number" id="employeeSalary" class="form-input" placeholder="80000" min="0" step="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="employeeStartDate">Дата начала работы</label>
+                            <input type="date" id="employeeStartDate" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeePhone">Телефон</label>
+                        <input type="tel" id="employeePhone" class="form-input" placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeeNotes">Примечания</label>
+                        <textarea id="employeeNotes" class="form-textarea" rows="3" placeholder="Дополнительная информация о сотруднике..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addEmployeeModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveEmployee()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Добавление отдела -->
+    <div id="addDepartmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить отдел</h3>
+                <span class="modal-close" onclick="closeModal('addDepartmentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addDepartmentForm">
+                    <div class="form-group">
+                        <label class="form-label" for="departmentName">Название отдела</label>
+                        <input type="text" id="departmentName" class="form-input" placeholder="Название отдела" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="departmentDescription">Описание</label>
+                        <input type="text" id="departmentDescription" class="form-input" placeholder="Краткое описание функций отдела" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="departmentIcon">Иконка</label>
+                        <select id="departmentIcon" class="form-select" required>
+                            <option value="">Выберите иконку</option>
+                            <option value="fas fa-laptop-code">💻 Разработка</option>
+                            <option value="fas fa-users">👥 Персонал</option>
+                            <option value="fas fa-chart-line">📈 Продажи</option>
+                            <option value="fas fa-bullhorn">📢 Маркетинг</option>
+                            <option value="fas fa-calculator">🧮 Финансы</option>
+                            <option value="fas fa-cog">⚙️ Техподдержка</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="departmentManager">Руководитель</label>
+                        <select id="departmentManager" class="form-select">
+                            <option value="">Выберите руководителя</option>
+                            <!-- Список будет заполняться из существующих сотрудников -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addDepartmentModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveDepartment()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Редактирование сотрудника -->
+    <div id="editEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать сотрудника</h3>
+                <span class="modal-close" onclick="closeModal('editEmployeeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editEmployeeForm">
+                    <!-- Аналогичные поля как в форме добавления -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeeName">ФИО</label>
+                            <input type="text" id="editEmployeeName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeeEmail">Email</label>
+                            <input type="email" id="editEmployeeEmail" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeeDepartment">Отдел</label>
+                            <select id="editEmployeeDepartment" class="form-select" required>
+                                <option value="IT">IT отдел</option>
+                                <option value="HR">HR отдел</option>
+                                <option value="Sales">Продажи</option>
+                                <option value="Marketing">Маркетинг</option>
+                                <option value="Finance">Финансы</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeePosition">Должность</label>
+                            <input type="text" id="editEmployeePosition" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeeSalary">Оклад</label>
+                            <input type="number" id="editEmployeeSalary" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editEmployeeStatus">Статус</label>
+                            <select id="editEmployeeStatus" class="form-select" required>
+                                <option value="active">Активный</option>
+                                <option value="inactive">Неактивный</option>
+                                <option value="vacation">В отпуске</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editEmployeePhone">Телефон</label>
+                        <input type="tel" id="editEmployeePhone" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editEmployeeNotes">Примечания</label>
+                        <textarea id="editEmployeeNotes" class="form-textarea" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-error" onclick="deleteEmployee()">Удалить</button>
+                <button class="btn btn-secondary" onclick="closeModal('editEmployeeModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="updateEmployee()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

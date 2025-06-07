@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Табель учета времени - TimeTracker Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-clock"></i>
+                <span>TimeTracker Pro</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                <a href="timesheet.html" class="nav-link active"><i class="fas fa-calendar"></i> Табель</a>
+                <a href="payroll.html" class="nav-link"><i class="fas fa-calculator"></i> Зарплата</a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> Отчеты</a>
+            </div>
+            
+            <div class="nav-profile">
+                <div class="profile-dropdown">
+                    <div class="profile-trigger">
+                        <img src="assets/images/avatars/default.png" alt="Профиль" class="profile-avatar">
+                        <span class="profile-name">Иван Петров</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile-menu">
+                        <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="admin-panel.html"><i class="fas fa-cog"></i> Админ-панель</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Табель учета времени</h1>
+                        <p class="page-subtitle">Просмотр и редактирование записей рабочего времени</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" onclick="exportTimesheet()">
+                            <i class="fas fa-download"></i>
+                            Экспорт
+                        </button>
+                        <button class="btn btn-primary" onclick="showAddRecordModal()">
+                            <i class="fas fa-plus"></i>
+                            Добавить запись
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Фильтры и навигация -->
+            <section class="timesheet-controls">
+                <div class="controls-row">
+                    <!-- Навигация по периодам -->
+                    <div class="period-navigation">
+                        <button class="btn btn-outline btn-sm" onclick="changePeriod(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="period-selector">
+                            <select id="periodType" class="form-select" onchange="updatePeriod()">
+                                <option value="month">Месяц</option>
+                                <option value="week">Неделя</option>
+                                <option value="custom">Период</option>
+                            </select>
+                            <span class="current-period" id="currentPeriod">Май 2025</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="changePeriod(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Быстрые фильтры -->
+                    <div class="quick-filters">
+                        <button class="filter-btn active" data-filter="all">Все записи</button>
+                        <button class="filter-btn" data-filter="complete">Завершенные</button>
+                        <button class="filter-btn" data-filter="pending">В процессе</button>
+                        <button class="filter-btn" data-filter="overtime">Переработка</button>
+                    </div>
+
+                    <!-- Поиск -->
+                    <div class="search-box">
+                        <input type="text" class="form-input" placeholder="Поиск записей..." id="searchInput">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Календарный вид -->
+            <section class="calendar-view">
+                <div class="view-switcher">
+                    <button class="view-btn active" data-view="calendar" onclick="switchView('calendar')">
+                        <i class="fas fa-calendar-alt"></i>
+                        Календарь
+                    </button>
+                    <button class="view-btn" data-view="table" onclick="switchView('table')">
+                        <i class="fas fa-table"></i>
+                        Таблица
+                    </button>
+                </div>
+
+                <!-- Календарная сетка -->
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-header">
+                        <div class="day-header">Пн</div>
+                        <div class="day-header">Вт</div>
+                        <div class="day-header">Ср</div>
+                        <div class="day-header">Чт</div>
+                        <div class="day-header">Пт</div>
+                        <div class="day-header">Сб</div>
+                        <div class="day-header">Вс</div>
+                    </div>
+                    <div class="calendar-body" id="calendarBody">
+                        <!-- Календарные ячейки будут генерироваться JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Табличный вид -->
+            <section class="table-view hidden" id="tableView">
+                <div class="timesheet-table">
+                    <div class="table-header">
+                        <h3>Детальные записи</h3>
+                        <div class="table-stats">
+                            <span class="stat-item">
+                                <strong id="totalRecords">0</strong> записей
+                            </span>
+                            <span class="stat-item">
+                                <strong id="totalHours">0ч 0м</strong> общее время
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                    </th>
+                                    <th onclick="sortTable('date')">
+                                        Дата <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('checkIn')">
+                                        Приход <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('checkOut')">
+                                        Уход <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('duration')">
+                                        Длительность <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('break')">
+                                        Перерыв <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('status')">
+                                        Статус <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="timesheetTableBody">
+                                <!-- Данные будут загружаться через JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-pagination">
+                        <div class="pagination-info">
+                            Показано <span id="showingStart">1</span>-<span id="showingEnd">10</span> 
+                            из <span id="totalEntries">50</span> записей
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="btn btn-outline btn-sm" onclick="changePage(-1)" id="prevPage">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="page-numbers" id="pageNumbers">
+                                <!-- Номера страниц -->
+                            </span>
+                            <button class="btn btn-outline btn-sm" onclick="changePage(1)" id="nextPage">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Сводка по периоду -->
+            <section class="period-summary">
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h4>Отработано часов</h4>
+                            <div class="summary-value" id="workedHours">142ч 30м</div>
+                            <div class="summary-change positive">
+                                <i class="fas fa-arrow-up"></i> +5% к прошлому месяцу
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h4>Рабочих дней</h4>
+                            <div class="summary-value" id="workingDays">22</div>
+                            <div class="summary-change neutral">
+                                <i class="fas fa-minus"></i> План: 22 дня
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h4>Опозданий</h4>
+                            <div class="summary-value" id="lateCount">3</div>
+                            <div class="summary-change negative">
+                                <i class="fas fa-arrow-down"></i> -1 к прошлому месяцу
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h4>Переработка</h4>
+                            <div class="summary-value" id="overtimeHours">12ч 30м</div>
+                            <div class="summary-change positive">
+                                <i class="fas fa-arrow-up"></i> +8% к прошлому месяцу
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно добавления записи -->
+    <div id="addRecordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить запись времени</h3>
+                <span class="modal-close" onclick="closeModal('addRecordModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addRecordForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="recordDate">Дата</label>
+                            <input type="date" id="recordDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="recordType">Тип записи</label>
+                            <select id="recordType" class="form-select" required>
+                                <option value="work">Рабочий день</option>
+                                <option value="sick">Больничный</option>
+                                <option value="vacation">Отпуск</option>
+                                <option value="business_trip">Командировка</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="checkInTime">Время прихода</label>
+                            <input type="time" id="checkInTime" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="checkOutTime">Время ухода</label>
+                            <input type="time" id="checkOutTime" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="breakDuration">Время перерыва (минуты)</label>
+                            <input type="number" id="breakDuration" class="form-input" min="0" max="240" value="60">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="workLocation">Место работы</label>
+                            <select id="workLocation" class="form-select">
+                                <option value="office">Офис</option>
+                                <option value="home">Удаленно</option>
+                                <option value="client">У клиента</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="recordNotes">Примечания</label>
+                        <textarea id="recordNotes" class="form-textarea" rows="3" 
+                                placeholder="Дополнительная информация о рабочем дне..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addRecordModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="saveRecord()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования записи -->
+    <div id="editRecordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Редактировать запись</h3>
+                <span class="modal-close" onclick="closeModal('editRecordModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editRecordForm">
+                    <!-- Аналогичные поля как в форме добавления -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editRecordDate">Дата</label>
+                            <input type="date" id="editRecordDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editRecordType">Тип записи</label>
+                            <select id="editRecordType" class="form-select" required>
+                                <option value="work">Рабочий день</option>
+                                <option value="sick">Больничный</option>
+                                <option value="vacation">Отпуск</option>
+                                <option value="business_trip">Командировка</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editCheckInTime">Время прихода</label>
+                            <input type="time" id="editCheckInTime" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editCheckOutTime">Время ухода</label>
+                            <input type="time" id="editCheckOutTime" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editBreakDuration">Время перерыва (минуты)</label>
+                            <input type="number" id="editBreakDuration" class="form-input" min="0" max="240">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editWorkLocation">Место работы</label>
+                            <select id="editWorkLocation" class="form-select">
+                                <option value="office">Офис</option>
+                                <option value="home">Удаленно</option>
+                                <option value="client">У клиента</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editRecordNotes">Примечания</label>
+                        <textarea id="editRecordNotes" class="form-textarea" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-error" onclick="deleteRecord()">Удалить</button>
+                <button class="btn btn-secondary" onclick="closeModal('editRecordModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="updateRecord()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/timetracker.js"></script>
+    <script src="js/timesheet.js"></script>
+    <script src="js/app.js"></script>
+    <script src="server/models/TimeRecord.js"></script>
+</body>
+</html>
